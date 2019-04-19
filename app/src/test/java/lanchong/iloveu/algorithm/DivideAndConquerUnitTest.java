@@ -62,10 +62,21 @@ public class DivideAndConquerUnitTest {
 
     }
 
+    @Test
+    public void t() {
+        DivideAndConquer s = new DivideAndConquer();
 
+        //    int k = 3;
+        int[] arr = {4, 5, 8, 2};
+        DivideAndConquer.KthLargest kthLargest = new DivideAndConquer.KthLargest(3, arr);
+        System.out.println("result:" + kthLargest.add(3));   // returns 4
 
+        System.out.println("result:" + kthLargest.add(5));   // returns 5
+        System.out.println("result:" + kthLargest.add(10));  // returns 5
+        System.out.println("result:" + kthLargest.add(9));   // returns 8
+        System.out.println("result:" + kthLargest.add(4));   // returns 8
 
-
+    }
 
 
 }

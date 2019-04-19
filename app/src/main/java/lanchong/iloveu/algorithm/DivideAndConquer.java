@@ -1,5 +1,7 @@
 package lanchong.iloveu.algorithm;
 
+import java.util.LinkedList;
+
 /**
  * 分治法
  */
@@ -77,7 +79,7 @@ public class DivideAndConquer {
      * 习题2，搜索峰值
      * 第一个和最后一个是负无从小
      */
-    public int findPeak(int[] nums){
+    public int findPeak(int[] nums) {
 
 
         return -1;
@@ -166,15 +168,14 @@ public class DivideAndConquer {
      * 给2个大小不一的数组，找出这两个数组的交集
      * 输出中不能有重复
      * [1,2,2,1] [2,2] return [2]
-     *
+     * <p>
      * 根据大小不一设计不同的算法
      * 1.使用set
      * 2.sort + binarySearch解法排序大的
      * 3.sort + two points排序后双指针
-     *
      */
-    public int test2(){
-        
+    public int test2() {
+
 
         return -1;
     }
@@ -184,18 +185,65 @@ public class DivideAndConquer {
      * 习题5，两数组的交集
      * 输出中有重复数据
      */
-    public int test3(){
+    public int test3() {
 
         return -1;
 
     }
 
 
+    /**
+     * 703. 数据流中的第K大元素
+     */
+    public static class KthLargest {
+        int k;
+        LinkedList<Integer> mList;
+        int min = Integer.MIN_VALUE;
 
+        public KthLargest(int k, int[] nums) {
+            this.k = k;
+            mList = new LinkedList<>();
 
+            for (int i : nums) {
+                if (mList.size() < k || i > min) {
+                    boolean b = true;
+                    for (int j = 0; j < mList.size(); j++) {
+                        Integer jValue = mList.get(j);
+                        if (jValue >= i) {
+                            mList.add(j, i);
+                            b = false;
+                            break;
+                        }
+                    }
+                    if (b) {
+                        mList.addFirst(i);
+                    }
+                    if (mList.size() > k) {
+                        mList.removeFirst();
+                    }
+                    min = mList.getFirst();
+                }
+            }
+        }
 
+        public int add(int val) {
+            if (val > min) {
+                for (int j = 0; j < mList.size(); j++) {
+                    Integer jValue = mList.get(j);
+                    if (jValue >= val) {
+                        mList.add(j, val);
+                        break;
+                    }
+                }
+                if (mList.size() > k) {
+                    mList.removeFirst();
+                }
+                min = mList.getFirst();
+            }
 
-
+            return min;
+        }
+    }
 
 
 }
