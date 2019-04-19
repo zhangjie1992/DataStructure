@@ -79,17 +79,85 @@ public class DivideAndConquer {
      */
     public int findPeak(int[] nums){
 
+
         return -1;
     }
 
     /**
-     * 习题3，查找中值/查找第K小个元素(下标为K)
-     * 条件未排序
-     * partition(分区)算法：快排中也用过
+     * 习题3，查找中值/查找第K小个元素(下标为K) 条件未排序无重复 partition(分区)算法：快排中也用过
      */
-    public int find(int[] nums){
+    public int findK(int[] nums, int K) {
+        if (K < 0 || nums == null || nums.length == 0 || K > nums.length - 1) {
+            return -1;
+        }
+        return partition(nums, 0, nums.length - 1, K);
+    }
 
-        return -1;
+    private int partition(int[] nums, int start, int end, int K) {
+        if (start >= end) {
+            if (start == K) {
+                return nums[start];
+            }
+            return -1;
+        }
+        processPivot(nums, start, end);
+        int pivotValue = nums[start];
+
+        int l = start + 1;
+        int r = end;
+        while (true) {// 0 2 5 l=1 r=2 //l=1 r=1
+            while (r >= start + 1 && nums[r] > pivotValue) {
+                // nums[r] > pivotValue 是肯定成立的
+                r--;
+            }
+            while (r > l && l <= end && nums[l] < pivotValue) {
+                l++;
+            }
+            if (r > l) {
+                int temp = nums[r];
+                nums[r] = nums[l];
+                nums[l] = temp;
+            } else if (r <= l) {
+                if (r == K)
+                    return nums[start];
+
+                nums[start] = nums[r];
+                nums[r] = pivotValue;
+                break;
+            }
+        }
+        int result = partition(nums, start, start - 1, K);
+        if (result == -1) {
+            result = partition(nums, start + 1, end, K);
+        }
+        return result;
+    }
+
+    /**
+     * 取最左边，最右边及中间的数值，并将其排序
+     */
+    private void processPivot(int[] nums, int l, int r) {
+        int lValue = nums[l];
+        int rValue = nums[r];
+        if (l + 1 == r) {
+            nums[l] = Math.min(lValue, rValue);
+            nums[r] = Math.max(lValue, rValue);
+            return;
+        }
+
+        int mid = l + ((r - l) >> 1);
+        int mValue = nums[mid];
+
+        int max = Math.max(Math.max(lValue, rValue), mValue);
+        int min = Math.min(Math.min(lValue, rValue), mValue);
+
+        nums[l] = min;
+        nums[r] = max;
+        if (lValue != max && lValue != min) {
+            nums[mid] = lValue;
+        } else if (rValue != max && rValue != min) {
+            nums[mid] = rValue;
+        }
     }
 
     /**
@@ -106,7 +174,9 @@ public class DivideAndConquer {
      *
      */
     public int test2(){
+        
 
+        return -1;
     }
 
 
@@ -116,6 +186,7 @@ public class DivideAndConquer {
      */
     public int test3(){
 
+        return -1;
 
     }
 

@@ -48,5 +48,24 @@ public class DivideAndConquerUnitTest {
     }
 
 
+    @Test
+    public void findK() {
+        DivideAndConquer s = new DivideAndConquer();
+        int[] nums = {0, 5, 7, 4, 2};
+//        int[] nums = {0,1,2,3,4,5};
+        System.out.println("result:" + s.findK(nums, 0));
+        System.out.println("result:" + s.findK(nums, 1));
+        System.out.println("result:" + s.findK(nums, 2));
+        System.out.println("result:" + s.findK(nums, 3));
+        System.out.println("result:" + s.findK(nums, 4));
+        System.out.println("result:" + s.findK(nums, 5));
+
+    }
+
+
+
+
+
+
 
 }
