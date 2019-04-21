@@ -1,5 +1,8 @@
 package lanchong.iloveu.algorithm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 分治法
  */
@@ -78,9 +81,28 @@ public class DivideAndConquer {
      * 第一个和最后一个是负无从小
      */
     public int findPeak(int[] nums){
+        if(nums.length<=1) return 0;
 
-
-        return -1;
+        int l = 0;
+        int r = nums.length - 1;
+        int mid;
+        while(l+1<r){
+            mid = l+((r-l)>>1);
+            int value = nums[mid];
+            int prevValue = nums[mid-1];
+            int nextValue = nums[mid+1];
+            if(value>prevValue&&value>nextValue){
+                return mid;
+            }else if(value>prevValue){
+                l = mid;
+            }else{
+                r = mid;
+            }
+        }
+        if(nums[l]>nums[r]){
+            return l;
+        }
+        return r;
     }
 
     /**
@@ -174,7 +196,7 @@ public class DivideAndConquer {
      *
      */
     public int test2(){
-        
+
 
         return -1;
     }
@@ -187,8 +209,119 @@ public class DivideAndConquer {
     public int test3(){
 
         return -1;
-
     }
+
+    /**
+     * 169. 求众数
+     * 众数个数 >  n/2
+     *
+     * 摩尔投票法 Moore Voting
+     */
+    public int majorityElement(int[] nums) {
+        int majority = -1;
+        int count = 0;
+        for (int num : nums) {
+            if (count == 0) {
+                majority = num;
+            }
+            if (majority == num) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        return majority;
+    }
+
+    public static void main(String[] args){
+//        int[] nums = {1,1,1,3,3,2,2,2};
+        int[] nums = {3,2,3};
+//        int[] nums = {2,2,2,2,2,
+//                9,3,9,3,9,
+//                3,9,3,9,3,
+//                9,3,9,3,9};
+//        int[] nums = {
+//                9,3,9,3,9,
+//                3,9,3,9,3,
+//                9,3,9,3,9,
+//                2,2,2,2,2
+//        };
+
+        //20  9=8 3=7
+        System.out.print("result:"+new DivideAndConquer().majorityElementII(nums));
+    }
+
+    /**
+     * 229. Majority Element II
+     * 众数个数 >  n/3
+     */
+    public List<Integer> majorityElementII(int[] nums) {
+        int limit = nums.length/3+1;
+
+        ArrayList<Integer> list = new ArrayList<>(2);
+        int majority = -1;
+        int count = 0;
+
+        int majority2 = -1;
+        int count2 = 0;
+
+        for (int num : nums) {
+            if (count == 0 && majority2!=num) {
+                majority = num;
+            } else if(count2 == 0&& majority!=num){
+                majority2 = num;
+            }
+            if (majority == num) {
+                count++;
+            } else if(majority2 == num){
+                count2++;
+            }else {
+                count--;
+                count2--;
+            }
+        }
+
+        if (count>=limit){
+            //还是大于等于3分之一就肯定是
+            list.add(majority);
+        }else{
+            count =0;
+            for (int num : nums) {
+                if (num==majority){
+                    count++;
+                    if (count>=limit){
+                        list.add(majority);
+                        break;
+                    }
+                }
+
+            }
+        }
+        if (count2>=limit){
+            //还是大于等于3分之一就肯定是
+            list.add(majority2);
+        }else{
+            count2 =0;
+            for (int num : nums) {
+                if (num==majority2){
+                    count2++;
+                    if (count2>=limit){
+                        list.add(majority2);
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        return list;
+    }
+
+    //加和值最多
+
+
+
+
 
 
 
