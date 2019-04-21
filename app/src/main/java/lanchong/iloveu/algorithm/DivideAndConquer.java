@@ -233,23 +233,7 @@ public class DivideAndConquer {
         return majority;
     }
 
-    public static void main(String[] args){
-//        int[] nums = {1,1,1,3,3,2,2,2};
-        int[] nums = {3,2,3};
-//        int[] nums = {2,2,2,2,2,
-//                9,3,9,3,9,
-//                3,9,3,9,3,
-//                9,3,9,3,9};
-//        int[] nums = {
-//                9,3,9,3,9,
-//                3,9,3,9,3,
-//                9,3,9,3,9,
-//                2,2,2,2,2
-//        };
 
-        //20  9=8 3=7
-        System.out.print("result:"+new DivideAndConquer().majorityElementII(nums));
-    }
 
     /**
      * 229. Majority Element II
@@ -318,6 +302,7 @@ public class DivideAndConquer {
     }
 
     //加和值最多
+    
 
 
 
