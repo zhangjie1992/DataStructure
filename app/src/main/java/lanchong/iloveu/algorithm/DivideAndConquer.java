@@ -301,8 +301,28 @@ public class DivideAndConquer {
         return list;
     }
 
-    //加和值最多
-    
+
+    /**
+     * 53. 最大子序和  //加和值最多
+     *
+     */
+    public int maxSubArray(int[] nums) {
+        int result = Integer.MIN_VALUE;
+
+        for (int data =0, l = 0; l < nums.length; l++) {
+            result = Math.max(result, nums[l]);
+            if(data<(data+=nums[l])){
+                result = Math.max(result, data);
+            }
+            if(data < 0){
+                data = 0;
+            }
+        }
+
+        return result;
+    }
+
+
 
 
 
