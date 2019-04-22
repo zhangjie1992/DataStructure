@@ -1,6 +1,10 @@
 package lanchong.iloveu.algorithm;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * 分治法
@@ -86,7 +90,9 @@ public class DivideAndConquer {
     }
 
     /**
-     * 习题3，查找中值/查找第K小个元素(下标为K) 条件未排序无重复 partition(分区)算法：快排中也用过
+     * 习题3，查找中值/查找第K小个元素(下标为K)
+     * 条件未排序无重复
+     * partition(分区)算法：快排中也用过
      */
     public int findK(int[] nums, int K) {
         if (K < 0 || nums == null || nums.length == 0 || K > nums.length - 1) {
@@ -171,79 +177,117 @@ public class DivideAndConquer {
      * <p>
      * 根据大小不一设计不同的算法
      * 1.使用set
-     * 2.sort + binarySearch解法排序大的
-     * 3.sort + two points排序后双指针
+     * 2.sort + binarySearch 排序大的去小的里找
+     * 3.sort + two points 两个都排序+双指针
+     * <p>
+     * 习题5，两数组的交集,输出中有重复数据
+     * 使用方法3就行。懒得写了
      */
-    public int test2() {
-
-
+    public int findIntersection(int[] nums1, int[] nums2) {
         return -1;
     }
 
-
     /**
-     * 习题5，两数组的交集
-     * 输出中有重复数据
+     * 习题6，计算逆序对
+     * 无序，没有重复
+     * 类似归并排序
      */
-    public int test3() {
-
-        return -1;
-
+    public int test6(List<Integer> nums1) {
+        List<Integer> divide = divide(nums1);
+        return count;
     }
 
-
     /**
-     * 703. 数据流中的第K大元素
+     * 计算逆序对数
      */
-    public static class KthLargest {
-        int k;
-        LinkedList<Integer> mList;
-        int min = Integer.MIN_VALUE;
+    int count = 0;
 
-        public KthLargest(int k, int[] nums) {
-            this.k = k;
-            mList = new LinkedList<>();
+    private List<Integer> divide(List<Integer> list) {
+        if (list.size() == 1) {
+            return list;
+        }
+        int mid = list.size() >> 1;
+        List<Integer> lList = list.subList(0, mid);
+        List<Integer> rList = list.subList(mid, list.size());
+        return merge(divide(lList), divide(rList));
+    }
 
-            for (int i : nums) {
-                if (mList.size() < k || i > min) {
-                    boolean b = true;
-                    for (int j = 0; j < mList.size(); j++) {
-                        Integer jValue = mList.get(j);
-                        if (jValue >= i) {
-                            mList.add(j, i);
-                            b = false;
-                            break;
-                        }
-                    }
-                    if (b) {
-                        mList.addFirst(i);
-                    }
-                    if (mList.size() > k) {
-                        mList.removeFirst();
-                    }
-                    min = mList.getFirst();
+    public List<Integer> merge(List<Integer> left, List<Integer> right) {
+        int newSize = left.size() + right.size();
+        ArrayList<Integer> list = new ArrayList<>(newSize);
+        int l = 0, r = 0;
+        for (; l < left.size() && r < right.size(); ) {
+            int lValue = left.get(l);
+            for (; r < right.size(); r++) {
+                int rValue = right.get(r);
+                if (lValue <= rValue) {
+                    list.add(lValue);
+                    l++;
+                    break;
+                } else {
+                    list.add(rValue);
+                    //右边的数据，跳跃左边的数据的个数
+                    count += left.size() - l;
                 }
             }
         }
+        while (l < left.size()) {
+            int iValue = left.get(l);
+            list.add(iValue);
+            l++;
+        }
+        while (r < right.size()) {
+            int jValue = right.get(r);
+            list.add(jValue);
+            r++;
+        }
+        return list;
+    }
 
-        public int add(int val) {
-            if (val > min) {
-                for (int j = 0; j < mList.size(); j++) {
-                    Integer jValue = mList.get(j);
-                    if (jValue >= val) {
-                        mList.add(j, val);
-                        break;
-                    }
-                }
-                if (mList.size() > k) {
-                    mList.removeFirst();
-                }
-                min = mList.getFirst();
+    /**
+     * 习题7，在两个已排序数组中找到一个多余元素的索引
+     * <p>
+     * numsDest和numsSrc是排序数组，numsSrc中多了一个数据，找出这个多余元素的索引
+     */
+    public int test7(int[] destNums, int[] srcNums) {
+        int l = 0;
+        int r = destNums.length - 1;
+        int mid;
+        while (l + 1 < r) {
+            mid = l + ((r - l) >> 1);
+            int destInt = destNums[mid];
+            int srcInt = srcNums[mid];
+
+            if (destInt == srcInt) {
+                l = mid;
+            } else {
+                r = mid;
             }
-
-            return min;
+        }
+        if (destNums[l] == srcNums[l] && destNums[r] == srcNums[r]) {
+            return srcNums.length - 1;
+        } else if (destNums[l] == srcNums[l]) {
+            return r;
+        } else {
+            return l;
         }
     }
+
+    /**
+     * 加和值最大的子序列问题
+     * 我用动态规划写过O(n)
+     *
+     * 但是可以用分治法O(nlgn)虽然慢但是经典
+     * 需要使用分治法
+     */
+    public int maxSubArray(int[] nums) {
+
+
+
+
+        return 1;
+    }
+
 
 
 }

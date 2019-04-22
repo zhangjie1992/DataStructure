@@ -3,6 +3,10 @@ package lanchong.iloveu.algorithm;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 public class DivideAndConquerUnitTest {
 
 
@@ -59,24 +63,30 @@ public class DivideAndConquerUnitTest {
         System.out.println("result:" + s.findK(nums, 3));
         System.out.println("result:" + s.findK(nums, 4));
         System.out.println("result:" + s.findK(nums, 5));
-
     }
 
     @Test
-    public void t() {
+    public void test6() {
         DivideAndConquer s = new DivideAndConquer();
-
-        //    int k = 3;
-        int[] arr = {4, 5, 8, 2};
-        DivideAndConquer.KthLargest kthLargest = new DivideAndConquer.KthLargest(3, arr);
-        System.out.println("result:" + kthLargest.add(3));   // returns 4
-
-        System.out.println("result:" + kthLargest.add(5));   // returns 5
-        System.out.println("result:" + kthLargest.add(10));  // returns 5
-        System.out.println("result:" + kthLargest.add(9));   // returns 8
-        System.out.println("result:" + kthLargest.add(4));   // returns 8
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(5);
+        list.add(4);
+        list.add(3);
+        list.add(2);
+        list.add(1);
+        System.out.println("result:" + s.test6(list));
+    }
+    @Test
+    public void test7(){
+        DivideAndConquer s = new DivideAndConquer();
+        int[] nums1 = {1,2,3,5};
+        int[] nums2 = {1,2,3,4,5};
+//        int[] nums2 = {1,2,3,5,6};
+        System.out.println("result:" + s.test7(nums1,nums2));
 
     }
+
+
 
 
 }

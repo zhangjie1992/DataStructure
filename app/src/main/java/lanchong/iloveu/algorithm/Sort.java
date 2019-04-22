@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * 排序算法
- *
+ * <p>
  * 二叉搜索树排序
  * 堆排序
  * 煎饼排序 非常非常的有意思 1979盖茨也参与 2009冯昆吾的老师改进
@@ -28,6 +28,7 @@ public class Sort {
         if (length <= 1) {
             return;
         }
+        processPivot(list, pivotIndex, length);
         Integer pivot = list.get(pivotIndex);
         int maxIdx = pivotIndex + length - 1;
         int i = pivotIndex, j = maxIdx;
@@ -69,6 +70,31 @@ public class Sort {
         quickSortRecursion(list, rightPivotIndex, rightLength);
     }
 
+    private void processPivot(List<Integer> list, int l, int length) {
+        int r = l + length - 1;
+        int lValue = list.get(l);
+        int rValue = list.get(r);
+        if (length==2) {
+            list.set(l, Math.min(lValue, rValue));
+            list.set(r, Math.max(lValue, rValue));
+            return;
+        }
+
+        int mid = l + (length >> 1);
+        int mValue = list.get(mid);
+
+        int max = Math.max(Math.max(lValue, rValue), mValue);
+        int min = Math.min(Math.min(lValue, rValue), mValue);
+
+        list.set(l, min);
+        list.set(r, max);
+        if (lValue != max && lValue != min) {
+            list.set(mid, lValue);
+        } else if (rValue != max && rValue != min) {
+            list.set(mid, rValue);
+        }
+    }
+
 
     /**
      * 归并排序,并归排序(分治法) 使用递归
@@ -89,7 +115,8 @@ public class Sort {
     }
 
     public List<Integer> merge(List<Integer> left, List<Integer> right) {
-        ArrayList<Integer> list = new ArrayList<>();
+        int newSize = left.size() + right.size();
+        ArrayList<Integer> list = new ArrayList<>(newSize);
         int i = 0, j = 0;
         for (; i < left.size() && j < right.size(); ) {
             int iValue = left.get(i);
