@@ -3,7 +3,9 @@ package lanchong.iloveu.algorithm;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Other {
 
@@ -149,7 +151,7 @@ public class Other {
      */
     public boolean rotateString(String A, String B) {
         if (A == null || B == null || A.length() != B.length()) return false;
-        if (A.length()==0)return true;
+        if (A.length() == 0) return true;
 
         char[] aChars = A.toCharArray();
         char[] bChars = B.toCharArray();
@@ -187,5 +189,104 @@ public class Other {
             val = x;
         }
     }
+
+
+    /**
+     * 动态规划
+     */
+    public int maxSubArray(int[] nums) {
+        int global = Integer.MIN_VALUE;
+        int local = 0;
+
+        for (int n : nums) {
+            local = Math.max(n, local + n);
+            global = Math.max(global, local);
+            if (local < 0) {
+                local = 0;
+            }
+        }
+        return global;
+    }
+
+
+    class KthLargest {
+        int mK;
+        PriorityQueue<Integer> mHeap;
+
+        public KthLargest(int k, int[] nums) {
+            this.mK = k;
+            mHeap = new PriorityQueue<>(k);
+
+            for (int val : nums) {
+                add(val);
+            }
+        }
+
+        public int add(int val) {
+            if (mHeap.size() < mK) {
+                mHeap.offer(val);
+            } else {
+                if (mHeap.peek() < val) {
+                    mHeap.poll();
+                    mHeap.offer(val);
+                }
+            }
+            return mHeap.peek();
+        }
+    }
+
+
+
+    public static void main(String[] args){
+        Other other = new Other();
+        int[] nums = {1,3,-1,-3,5,3,6,7};
+        int k = 3;
+        int[] ints = other.maxSlidingWindow(nums, k);
+        for (int i :ints){
+            System.out.println("i:"+i);
+        }
+    }
+
+    /**
+     * 239. 滑动窗口最大值
+     * 性能一般、、
+     */
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        if (k==0){
+            return new int[0];
+        }
+        int size = nums.length - k + 1;
+        int[] result = new int[size];
+        LinkedList<Integer> dequeue = new LinkedList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            dequeue.offer(nums[i]);
+            if (i >= k-1) {
+                removeLeftSmall(dequeue,nums[i]);
+
+                result[i - k + 1] = getLagest(dequeue);
+                if (dequeue.size()==k){
+                    dequeue.poll();
+                }
+            }
+        }
+        return result;
+    }
+
+    private void removeLeftSmall(LinkedList<Integer> dequeue,int r) {
+        while (dequeue.peek()<r){
+            dequeue.poll();
+        }
+    }
+    private int getLagest(LinkedList<Integer> dequeue) {
+        int max = Integer.MIN_VALUE;
+        for (int i : dequeue) {
+            max = Math.max(max, i);
+        }
+        return max;
+    }
+
+
+
 
 }

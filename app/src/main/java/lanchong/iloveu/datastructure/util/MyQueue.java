@@ -31,6 +31,16 @@ public class MyQueue<E> implements Queue<E>, Iterable {
     }
 
     @Override
+    public void add(E e, int idx) {
+
+    }
+
+    @Override
+    public E set(E e, int idx) {
+        return null;
+    }
+
+    @Override
     public E poll() {
         if (isEmpty()) {
             return null;
@@ -40,6 +50,16 @@ public class MyQueue<E> implements Queue<E>, Iterable {
 
         mTheSize--;
         return pollNode.data;
+    }
+
+    @Override
+    public boolean contains(E e) {
+        return false;
+    }
+
+    @Override
+    public int indexOf(E e) {
+        return 0;
     }
 
 
