@@ -9,7 +9,14 @@ import java.util.NoSuchElementException;
  */
 public class MyLinkedList<E> implements Deque<E>, Iterable {
 
+    /**
+     * sentinel node
+     * 保证操作的一致性
+     */
     private Node<E> beginMarker;
+    /**
+     * sentinel node
+     */
     private Node<E> endMarker;
     private int mTheSize;
     private int modCount;

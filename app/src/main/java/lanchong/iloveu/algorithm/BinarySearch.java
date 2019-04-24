@@ -1,7 +1,6 @@
 package lanchong.iloveu.algorithm;
 
 
-
 //习题9 供暖设备 1.5节课
 //  heaters进行排序 找房子左右heaters，保留最小的   对全部取最大的
 //  并不是二分查找法
@@ -9,12 +8,17 @@ package lanchong.iloveu.algorithm;
 
 //习题11-14 该做 矩阵搜索
 //习题15,16 该做 很难 合并区间 :  1、找到两个有序书中的中值（相同大小）  2、找到两个有序数组的中值
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 /**
  * 二分查找及变种
  * sqrt 二分法 倍增法   很多解不了的数学题都可以使用这种方式
- *
+ * <p>
  * 之前计算mid使用 (r+l)>>1 。实际上会出现超出int范围的问题
- *
  */
 public class BinarySearch {
 
@@ -156,29 +160,29 @@ public class BinarySearch {
      * 解法，先找到存在,再找第一个，再找最后一个
      */
     public int[] searchRange(int[] nums, int target) {
-        int[] result = {-1,-1};
-        if(nums==null||nums.length==0)return result;
+        int[] result = {-1, -1};
+        if (nums == null || nums.length == 0) return result;
         int l = 0;
-        int r = nums.length-1;
-        int mid = 0 ;
-        while(l+1<r){
-            mid = l+((r-l)>>1);
-            if (nums[mid]==target) {
+        int r = nums.length - 1;
+        int mid = 0;
+        while (l + 1 < r) {
+            mid = l + ((r - l) >> 1);
+            if (nums[mid] == target) {
                 break;
-            }else if (nums[mid]<target) {
+            } else if (nums[mid] < target) {
                 l = mid;
-            }else{
+            } else {
                 r = mid;
             }
         }
-        if (nums[mid]==target) {
-            result[0] = searchFrist(nums,target,l,mid);
-            result[1] = searchLast(nums,target,mid,r);
-        }else{
-            if (nums[l]==target){
+        if (nums[mid] == target) {
+            result[0] = searchFrist(nums, target, l, mid);
+            result[1] = searchLast(nums, target, mid, r);
+        } else {
+            if (nums[l] == target) {
                 result[0] = l;
                 result[1] = l;
-            }else if(nums[r]==target){
+            } else if (nums[r] == target) {
                 result[0] = r;
                 result[1] = r;
             }
@@ -219,9 +223,6 @@ public class BinarySearch {
         }
         return -1;
     }
-
-
-
 
 
     /**
@@ -285,18 +286,157 @@ public class BinarySearch {
         return Math.min(nums[l], nums[r]);
     }
 
+    /**
+     * 74. 搜索二维矩阵
+     * 编写一个高效的算法来判断 m x n 矩阵中，是否存在一个目标值。该矩阵具有如下特性：
+     * --每行中的整数从左到右按升序排列。
+     * --每行的第一个整数大于前一行的最后一个整数。
+     * <p>
+     * 降维
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length <= 0 || matrix[0].length <= 0) {
+            return false;
+        }
+        //行数
+        int raws = matrix.length;
+        //列数
+        int cols = matrix[0].length;
+        int size = raws * cols;
+        int l = 0;
+        int r = size - 1;
+        int mid;
+        while (l + 1 < r) {
+            mid = l + ((r - l) >> 1);
+            int raw = mid / cols;
+            int col = mid % cols;
+
+            int value = matrix[raw][col];
+            if (value == target) {
+                System.out.print("raw:" + raw + " col:" + col);
+                return true;
+            } else if (value > target) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        int lRaw = l / cols;
+        int lCol = l % cols;
+        int lValue = matrix[lRaw][lCol];
+        if (lValue == target) {
+            System.out.print("lRaw:" + lRaw + " lCol:" + lCol);
+            return true;
+        } else if (lValue < target) {
+            int rRaw = r / cols;
+            int rCol = r % cols;
+            int rValue = matrix[rRaw][rCol];
+            if (rValue == target) {
+                System.out.print("rRaw:" + rRaw + " rCol:" + rCol);
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
-     * 习题11 矩阵搜索
-     * 矩阵的行与列都排好序了
+     * 240. 搜索二维矩阵 II
+     * 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
+     * 每行的元素从左到右升序排列。
+     * 每列的元素从上到下升序排列。
      * <p>
-     * 1 5  10 11
-     * 6 9  15 17
-     * 7 12 16 20
+     * 分治法
+     * 左下角
      */
-    public int matrixSearch(int[][] matrix, int target) {
+    public boolean searchMatrixII(int[][] matrix, int target) {
+        if (matrix == null || matrix.length <= 0 || matrix[0].length <= 0) {
+            return false;
+        }
+        //行数
+        int raws = matrix.length;
+        //列数
+        int cols = matrix[0].length;
+        int maxRaw = raws;
+        int minCol = 0;
 
-        return -1;
+        while (maxRaw > 0 && minCol < cols) {
+            if (matrix[maxRaw - 1][minCol] == target) {
+                return true;
+            } else if (matrix[maxRaw - 1][minCol] > target) {
+                maxRaw--;
+            } else {
+                minCol++;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 378. 有序矩阵中第K小的元素
+     * 给定一个 n x n 矩阵，其中每行和每列元素均按升序排序，找到矩阵中第k小的元素。
+     * 请注意，它是排序后的第k小元素
+     * <p>
+     * 示例:
+     */
+    public int kthSmallest(int[][] matrix, int k) {
+        if (matrix == null || matrix.length <= 0 || matrix[0].length <= 0) {
+            return -1;
+        }
+        int size = matrix.length * matrix.length - k + 1;
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(size);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                if (priorityQueue.size() == size) {
+                    if (priorityQueue.peek() < matrix[i][j]) {
+                        priorityQueue.poll();
+                        priorityQueue.add(matrix[i][j]);
+                    }
+                } else {
+                    priorityQueue.add(matrix[i][j]);
+                }
+            }
+        }
+        return priorityQueue.peek();
+    }
+
+    /**
+     * 56. 合并区间
+     * 给出一个区间的集合，请合并所有重叠的区间。
+     */
+    public int[][] merge(int[][] intervals) {
+        if (intervals == null || intervals.length <= 1) {
+            return intervals;
+        }
+        Arrays.sort(intervals, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0]-o2[0];
+            }
+        });
+        ArrayList<int[]> list = new ArrayList<>();
+        int[] dest = null;
+        for (int i = 0; i < intervals.length; i++) {
+            if (dest == null) {
+                dest = intervals[i];
+            } else {
+                int[] src = intervals[i];
+                if (dest[1] >= src[0]) {
+                    if (dest[1] <= src[1]) {
+                        dest[1] = src[1];
+                    }
+                } else {
+                    list.add(dest);
+                    dest = src;
+                }
+            }
+        }
+        if (dest!=null){
+            list.add(dest);
+        }
+
+        int[][] integers = list.toArray(new int[list.size()][]);
+        return integers;
     }
 
 
