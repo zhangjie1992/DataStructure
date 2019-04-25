@@ -14,30 +14,43 @@ public class MapAndSet {
      * 两种解法
      * 1,使用set O(N2)
      * 2,sort find 枚举a，找b，c通过两边往中间的双指针 O(N2)
+     *
+     * 先sort后用set我的这个解法有点忙
      */
     public List<List<Integer>> threeSum(int[] nums) {
         ArrayList<List<Integer>> result = new ArrayList<>();
-        if (nums.length<3){
+        if (nums.length < 3) {
             return result;
         }
-        Arrays.sort(nums);
-        HashSet<Integer> set = new HashSet<>();
-        ArrayList<Integer> contains = new ArrayList<>();
-        set.add(nums[0]);
+//        Arrays.sort(nums);
+        HashSet<Integer> lSet = new HashSet<>();
+        HashSet<Integer> rUsedSet = new HashSet<>();
         for (int i = 1; i < nums.length; i++) {
+            lSet.add(nums[i-1]);
             int iNum = nums[i];
-            for (int j = i+1; j < nums.length; j++) {
+            if (i > 1 && nums[i - 2] == iNum) {
+                continue;
+            }
+            if (nums[i - 1] != iNum){
+                rUsedSet.clear();
+            }
+            for (int j = i + 1; j < nums.length; j++) {
                 int jNum = nums[j];
-                int xNum = -(jNum+iNum);
-                if (set.contains(xNum)) {
+                if (rUsedSet.contains(jNum)){
+                    continue;
+                }
+                int xNum = -(jNum + iNum);
+                if (lSet.contains(xNum)) {
                     ArrayList<Integer> list = new ArrayList<>(3);
                     list.add(iNum);
                     list.add(jNum);
                     list.add(xNum);
                     result.add(list);
+
+                    rUsedSet.add(jNum);
                 }
             }
-            set.add(nums[0]);
+
         }
         return result;
     }
