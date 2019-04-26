@@ -12,6 +12,25 @@ public class MapAndSetUnitTest {
 //        int[] nums = {0,0,0,0};
         System.out.println("result:" + s.threeSum(nums));
     }
+    @Test
+    public void isAnagram() {
+        MapAndSet s = new MapAndSet();
+        System.out.println("result:" + s.isAnagram("a","ba"));
+    }
 
+    @Test
+    public void groupAnagrams() {
+        MapAndSet s = new MapAndSet();
+        String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        System.out.println("result:" + s.groupAnagrams(strs));
+
+
+//    输出:
+//            [
+//            ["ate","eat","tea"],
+//            ["nat","tan"],
+//            ["bat"]
+//            ]
+    }
 
 }
