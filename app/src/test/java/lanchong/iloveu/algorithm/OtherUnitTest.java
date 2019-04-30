@@ -81,5 +81,11 @@ public class OtherUnitTest {
         System.out.println("result:" + s.rotateString(A, B));
     }
 
+    @Test
+    public void singleNumber() {
+        Other s = new Other();
+        int[] nums = {2,2,3,2};
+        System.out.println("result:" + s.singleNumber(nums));
+    }
 
 }
