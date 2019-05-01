@@ -1,4 +1,4 @@
-package lanchong.iloveu.datastructure.touch;
+package lanchong.iloveu.touch;
 
 import android.content.Context;
 import android.util.AttributeSet;

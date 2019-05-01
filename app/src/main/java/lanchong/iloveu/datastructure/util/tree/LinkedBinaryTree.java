@@ -246,17 +246,6 @@ public class LinkedBinaryTree implements BinaryTree<Integer> {
         }
     }
 
-    /**
-     * TODO
-     *
-     * @param node
-     */
-    private void levelOrder(BinaryTreeNode node) {
-        if (node == null) {
-            return;
-        }
-    }
-
     private class BinaryTreeNode {
         private int element;
         private BinaryTreeNode l;

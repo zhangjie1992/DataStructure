@@ -1,7 +1,9 @@
-package lanchong.iloveu.datastructure;
+package lanchong.iloveu;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import lanchong.iloveu.datastructure.R;
 
 
 //小米面试题

@@ -17,8 +17,9 @@ import java.util.PriorityQueue;
 /**
  * 二分查找及变种
  * sqrt 二分法 倍增法   很多解不了的数学题都可以使用这种方式
- * <p>
  * 之前计算mid使用 (r+l)>>1 。实际上会出现超出int范围的问题
+ *
+ * 考虑1 Sort 2 Duplicate 3 Negative
  */
 public class BinarySearch {
 
