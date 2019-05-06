@@ -273,7 +273,128 @@ public class DivideAndConquer {
         }
     }
 
+
     /**
+     * 习题4，两数组的交集
+     * 条件未排序
+     * 给2个大小不一的数组，找出这两个数组的交集
+     * 输出中不能有重复
+     * [1,2,2,1] [2,2] return [2]
+     *
+     * 根据大小不一设计不同的算法
+     * 1.使用set
+     * 2.sort + binarySearch解法排序大的
+     * 3.sort + two points排序后双指针
+     *
+     */
+    public int test2(){
+
+
+        return -1;
+    }
+
+
+    /**
+     * 习题5，两数组的交集
+     * 输出中有重复数据
+     */
+    public int test3(){
+
+        return -1;
+    }
+
+    /**
+     * 169. 求众数
+     * 众数个数 >  n/2
+     *
+     * 摩尔投票法 Moore Voting
+     */
+    public int majorityElement(int[] nums) {
+        int majority = -1;
+        int count = 0;
+        for (int num : nums) {
+            if (count == 0) {
+                majority = num;
+            }
+            if (majority == num) {
+                count++;
+            } else {
+                count--;
+            }
+        }
+        return majority;
+    }
+
+
+
+    /**
+     * 229. Majority Element II
+     * 众数个数 >  n/3
+     */
+    public List<Integer> majorityElementII(int[] nums) {
+        int limit = nums.length/3+1;
+
+        ArrayList<Integer> list = new ArrayList<>(2);
+        int majority = -1;
+        int count = 0;
+
+        int majority2 = -1;
+        int count2 = 0;
+
+        for (int num : nums) {
+            if (count == 0 && majority2!=num) {
+                majority = num;
+            } else if(count2 == 0&& majority!=num){
+                majority2 = num;
+            }
+            if (majority == num) {
+                count++;
+            } else if(majority2 == num){
+                count2++;
+            }else {
+                count--;
+                count2--;
+            }
+        }
+
+        if (count>=limit){
+            //还是大于等于3分之一就肯定是
+            list.add(majority);
+        }else{
+            count =0;
+            for (int num : nums) {
+                if (num==majority){
+                    count++;
+                    if (count>=limit){
+                        list.add(majority);
+                        break;
+                    }
+                }
+
+            }
+        }
+        if (count2>=limit){
+            //还是大于等于3分之一就肯定是
+            list.add(majority2);
+        }else{
+            count2 =0;
+            for (int num : nums) {
+                if (num==majority2){
+                    count2++;
+                    if (count2>=limit){
+                        list.add(majority2);
+                        break;
+                    }
+                }
+
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * 53. 最大子序和  //加和值最多
      * 加和值最大的子序列问题
      * 我用动态规划写过O(n)
      *
@@ -281,12 +402,21 @@ public class DivideAndConquer {
      * 需要使用分治法
      */
     public int maxSubArray(int[] nums) {
+        int result = Integer.MIN_VALUE;
 
+        for (int data =0, l = 0; l < nums.length; l++) {
+            result = Math.max(result, nums[l]);
+            if(data<(data+=nums[l])){
+                result = Math.max(result, data);
+            }
+            if(data < 0){
+                data = 0;
+            }
+        }
 
-
-
-        return 1;
+        return result;
     }
+
 
 
 

@@ -1,6 +1,13 @@
 package lanchong.iloveu.algorithm;
 
 
+
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 //习题9 供暖设备 1.5节课
 //  heaters进行排序 找房子左右heaters，保留最小的   对全部取最大的
 //  并不是二分查找法
@@ -8,11 +15,6 @@ package lanchong.iloveu.algorithm;
 
 //习题11-14 该做 矩阵搜索
 //习题15,16 该做 很难 合并区间 :  1、找到两个有序书中的中值（相同大小）  2、找到两个有序数组的中值
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
 
 /**
  * 二分查找及变种

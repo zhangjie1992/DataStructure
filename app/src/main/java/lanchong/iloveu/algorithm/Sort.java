@@ -74,7 +74,7 @@ public class Sort {
         int r = l + length - 1;
         int lValue = list.get(l);
         int rValue = list.get(r);
-        if (length==2) {
+        if (length == 2) {
             list.set(l, Math.min(lValue, rValue));
             list.set(r, Math.max(lValue, rValue));
             return;
@@ -257,5 +257,9 @@ public class Sort {
             size++;
         }
     }
+
+
+    
+
 
 }
