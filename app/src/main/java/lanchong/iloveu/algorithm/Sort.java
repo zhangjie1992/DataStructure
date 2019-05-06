@@ -259,7 +259,90 @@ public class Sort {
     }
 
 
-    
+    /**
+     * 堆排序
+     * 1.堆化
+     * 2.排序
+     * 原地排序 in-places
+     *
+     */
+    public void heapSort(int[] ints) {
+        if (ints==null||ints.length==0)return;
+        //堆化
+        heapify(ints);
+
+        //排序
+        int max = ints.length-1;
+        while (max>0){
+            swap(0,max,ints);
+            max--;
+
+            shiftDown(0,ints,max+1);
+        }
+    }
+
+    /**
+     * 堆化
+     * 选取最优的堆化方式，从最后一个非叶子结点到0
+     * 最后一个非叶子结点 = 最后一个结点的父节点
+     */
+    private void heapify(int[] ints) {
+        for (int i = getParentNodeIndex(ints.length-1) ; i >= 0; i--) {
+            shiftDown(i,ints,ints.length);
+        }
+    }
+    private void shiftDown(int idx,int[] datas,int size) {
+        int lChild = getlChildNodeIndex(idx);
+        int rChild = getrChildNodeIndex(idx);
+        if (lChild >= size && rChild >= size) {
+            return;
+        }
+        int tmp = datas[idx];
+        if (rChild < size) {
+            //两个都有
+            int max = Math.max(datas[lChild], datas[rChild]);
+            if (tmp < max) {
+                datas[idx] = max;
+                if (datas[lChild] == max){
+                    datas[lChild] = tmp;
+                    shiftDown(lChild,datas,size);
+                }else {
+                    datas[rChild] = tmp;
+                    shiftDown(rChild,datas,size);
+                }
+            }
+        }else {
+            if (tmp < datas[lChild]) {
+                datas[idx] = datas[lChild];
+                datas[lChild] = tmp;
+            }
+        }
+    }
+    /**
+     * 父节点下标
+     * @return -1表示不存在父节点
+     */
+    private int getParentNodeIndex(int i) {
+        return (i - 1) >> 1;
+    }
+
+    /**
+     * 左孩子节点下标
+     */
+    private int getlChildNodeIndex(int i) {
+        return (i << 1) + 1;
+    }
+    /**
+     * 右孩子节点下标
+     */
+    private int getrChildNodeIndex(int i) {
+        return (i << 1) + 2;
+    }
+    private void swap(int i,int j,int[] ints){
+        int tmp = ints[i];
+        ints[i] = ints[j];
+        ints[j] = tmp;
+    }
 
 
 }

@@ -96,10 +96,10 @@ public class Heap {
                 mDatas[idx] = min;
                 if (mDatas[lChild] == min){
                     mDatas[lChild] = tmp;
-                    shiftUp(lChild);
+                    shiftDown(lChild);
                 }else {
                     mDatas[rChild] = tmp;
-                    shiftUp(lChild);
+                    shiftDown(rChild);
                 }
             }
         }else {

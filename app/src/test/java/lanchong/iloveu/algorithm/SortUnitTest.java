@@ -29,4 +29,19 @@ public class SortUnitTest {
     }
 
 
+
+    @Test
+    public void heapSort() {
+        Sort sort = new Sort();
+
+        int[] ints = {3,15,30,2,100,1,999,25};
+
+        sort.heapSort(ints);
+        for (int i = 0; i < ints.length; i++) {
+            System.out.println("result:"+ints[i]);
+        }
+
+    }
+
+
 }
