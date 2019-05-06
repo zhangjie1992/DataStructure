@@ -1,8 +1,14 @@
 package lanchong.iloveu.algorithm;
 
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 
+/**
+ * 合并两个二叉堆
+ * * 最优方法是把两个二叉堆首尾相连放在一个数组中，再建堆。时间复杂度为O(log<sub>2</sub>(n+k))，其中n、k为两个堆的元素数目
+ * * 如果经常需要合并两个堆的操作，那么使用二项式堆更好，其时间复杂度为logn
+ */
 public class Heap {
 
 
@@ -56,6 +62,7 @@ public class Heap {
             return (lHeap.peek() + 0d) / 2 + (rHeap.peek() + 0d) / 2;
         }
     }
+
     private int addNum(int n, boolean odd, PriorityQueue<Integer> lHeap, PriorityQueue<Integer> rHeap, int i, int min) {
         if (odd) {
             if (lHeap.size() < n / 2 + 1) {
@@ -74,5 +81,58 @@ public class Heap {
         return i;
     }
 
+
+    /**
+     * 23 合并K个排序链表
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        PriorityQueue<ListNode> heap = new PriorityQueue<>(Math.max(lists.length, 10), new Comparator<ListNode>() {
+            @Override
+            public int compare(ListNode o1, ListNode o2) {
+                return o1.val - o2.val;
+            }
+        });
+
+        for (ListNode node : lists) {
+            if (node != null) {
+                heap.offer(node);
+            }
+        }
+        ListNode result = null;
+        ListNode curr = null;
+        while (!heap.isEmpty()) {
+            ListNode poll = heap.poll();
+            if (poll.next != null) {
+                heap.offer(poll.next);
+            }
+            if (result == null) {
+                result = poll;
+                curr = result;
+            }else {
+                curr.next = poll;
+                curr = poll;
+            }
+        }
+        return result;
+    }
+
+    public static class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
+    /**
+     * 215. 数组中的第K个最大元素
+     */
+//    public int findKthLargest(int[] nums, int k) {
+//        PriorityQueue<Integer> heap = new PriorityQueue<>();
+//
+//
+//
+//    }
 
 }

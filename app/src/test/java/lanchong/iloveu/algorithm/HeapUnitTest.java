@@ -18,4 +18,20 @@ public class HeapUnitTest {
     }
 
 
+    @Test
+    public void mergeKLists() {
+        Heap s = new Heap();
+        Heap.ListNode node1 = new Heap.ListNode(1);
+
+        Heap.ListNode[] list = {node1};
+        Heap.ListNode node = s.mergeKLists(list);
+
+        while (node!=null){
+            System.out.println("result:" + node.val);
+            node=node.next;
+        }
+
+    }
+
+
 }
