@@ -128,11 +128,20 @@ public class Heap {
     /**
      * 215. 数组中的第K个最大元素
      */
-//    public int findKthLargest(int[] nums, int k) {
-//        PriorityQueue<Integer> heap = new PriorityQueue<>();
-//
-//
-//
-//    }
+    public int findKthLargest(int[] nums, int k) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>(k);
+        if (k>nums.length){
+            return -1;
+        }
+        for (int i:nums) {
+            if (heap.size()<k){
+                heap.offer(i);
+            }else if (heap.peek()<i){
+                heap.poll();
+                heap.offer(i);
+            }
+        }
+        return heap.peek();
+    }
 
 }
