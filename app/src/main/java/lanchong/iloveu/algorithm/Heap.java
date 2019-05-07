@@ -1,7 +1,6 @@
 package lanchong.iloveu.algorithm;
 
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 /**
@@ -143,5 +142,92 @@ public class Heap {
         }
         return heap.peek();
     }
+
+    /**
+     *295. 数据流的中位数
+     */
+    public static class MedianFinder {
+
+        private final PriorityQueue<Integer> lHeap;
+        private final PriorityQueue<Integer> rHeap;
+        private boolean odd ;
+        private int size ;
+
+        public MedianFinder() {
+            lHeap = new PriorityQueue<>(100, new Comparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return o2 - o1;
+                }
+            });
+            rHeap = new PriorityQueue<>(100);
+
+            odd = false;
+            size = 0;
+        }
+
+        public void addNum(int num) {
+            odd = !odd;
+            size++;
+            if (lHeap.isEmpty()){
+                lHeap.offer(num);
+                return;
+            }else if (rHeap.isEmpty()){
+                if (num>=lHeap.peek()){
+                    rHeap.offer(num);
+                }else{
+                    Integer poll = lHeap.poll();
+                    rHeap.offer(poll);
+                    lHeap.offer(num);
+                }
+                return;
+            }
+
+            if (odd){
+                if (lHeap.size()<size/2+1){
+                    lOffer(num);
+                }else {
+                    rOffer(num);
+                }
+            }else {
+                if (lHeap.size()<size/2){
+                    lOffer(num);
+                }else {
+                    rOffer(num);
+                }
+            }
+        }
+
+        private void rOffer(int num) {
+            Integer lPeek = lHeap.peek();
+            if (num<lPeek){
+                Integer poll = lHeap.poll();
+                rHeap.offer(poll);
+                lHeap.offer(num);
+            }else{
+                rHeap.offer(num);
+            }
+        }
+
+        private void lOffer(int num) {
+            Integer rPeek = rHeap.peek();
+            if (num>rPeek){
+                Integer poll = rHeap.poll();
+                lHeap.offer(poll);
+                rHeap.offer(num);
+            }else{
+                lHeap.offer(num);
+            }
+        }
+
+        public double findMedian() {
+            if (odd){
+                return lHeap.peek();
+            }
+            return (lHeap.peek()+0d)/2+(rHeap.peek()+0d)/2;
+        }
+    }
+
+
 
 }

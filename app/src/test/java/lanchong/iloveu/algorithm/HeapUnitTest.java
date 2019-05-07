@@ -26,11 +26,36 @@ public class HeapUnitTest {
         Heap.ListNode[] list = {node1};
         Heap.ListNode node = s.mergeKLists(list);
 
-        while (node!=null){
+        while (node != null) {
             System.out.println("result:" + node.val);
-            node=node.next;
+            node = node.next;
         }
 
+    }
+
+    @Test
+    public void medianFinder() {
+        Heap.MedianFinder obj = new Heap.MedianFinder();
+        obj.addNum(1);
+        System.out.println("result:" + obj.findMedian());
+        obj.addNum(2);
+        System.out.println("result:" + obj.findMedian());// -> 1.5
+        obj.addNum(3);
+        System.out.println("result:" + obj.findMedian());// -> 2
+        obj.addNum(4);
+        System.out.println("result:" + obj.findMedian());
+        obj.addNum(5);
+        System.out.println("result:" + obj.findMedian());
+        obj.addNum(6);
+        System.out.println("result:" + obj.findMedian());
+        obj.addNum(7);
+        System.out.println("result:" + obj.findMedian());
+        obj.addNum(8);
+        System.out.println("result:" + obj.findMedian());
+        obj.addNum(9);
+        System.out.println("result:" + obj.findMedian());
+        obj.addNum(10);
+        System.out.println("result:" + obj.findMedian());
     }
 
 
