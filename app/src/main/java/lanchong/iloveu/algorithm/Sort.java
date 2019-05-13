@@ -24,6 +24,13 @@ public class Sort {
         if (size <= 1) {
             return;
         }
+        int r = partition(list, i, size);
+        int lLength = r - i;
+        quickSortRecursion(list, i, lLength);
+        quickSortRecursion(list, r, size - lLength - 1);
+    }
+
+    private int partition(List<Integer> list, int i, int size) {
         getPivot(list, i, size - 1);
         int pivotValue = list.get(i);
         int l = i + 1,r = i + size - 1;
@@ -45,9 +52,7 @@ public class Sort {
             list.set(i, list.get(r));
             list.set(r, pivotValue);
         }
-        int lLength = r - i;
-        quickSortRecursion(list, i, lLength);
-        quickSortRecursion(list, r, size - lLength - 1);
+        return r;
     }
 
     private void getPivot(List<Integer> list, int lIdx, int rIdx) {
@@ -117,7 +122,7 @@ public class Sort {
     /**
      * 计数排序
      */
-    public List<Integer> countingSort(List<Integer> list) {
+    public Integer[] countingSort(List<Integer> list) {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < list.size(); i++) {
@@ -126,25 +131,32 @@ public class Sort {
             max = Math.max(max, value);
         }
         int length = max - min + 1;
+        //存放计数的个数
         int[] intArr = new int[length];
-
+        //将个数存放进去
         for (int i = 0; i < list.size(); i++) {
-            int value = list.get(i);
+            int data = list.get(i);
 
-            int index = value - min;
-            int intArrValue = intArr[index];
-            intArr[index] = ++intArrValue;
+            int idx = data - min;
+            int intArrValue = intArr[idx];
+            intArr[idx] = ++intArrValue;
         }
 
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            int count = intArr[i];
-            int value = i + min;
-            for (int j = 0; j < count; j++) {
-                result.add(value);
-            }
+        //将个数转化成排序后的下标
+        for (int i = 1; i < intArr.length; i++) {
+            intArr[i] = intArr[i-1]+intArr[i];
         }
 
+        //结果集
+        Integer[] result = new Integer[list.size()];
+        //获得结果
+        for (int i = list.size()-1; i >=0; i--) {
+            Integer data = list.get(i);
+            int idx = intArr[data-min] -1;
+            result[idx] = data;
+
+            intArr[data-min] = idx;
+        }
         return result;
     }
 

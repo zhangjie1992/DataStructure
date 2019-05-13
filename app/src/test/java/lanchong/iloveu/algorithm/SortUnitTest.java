@@ -52,7 +52,11 @@ public class SortUnitTest {
         list.add(1);
         list.add(30);
 
-        System.out.println(sort.countingSort(list));
+        Integer[] ints = sort.countingSort(list);
+
+        for (int i = 0; i < ints.length; i++) {
+            System.out.println("result:"+ints[i]);
+        }
     }
 
 
