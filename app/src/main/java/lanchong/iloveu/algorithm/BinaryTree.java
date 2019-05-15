@@ -10,6 +10,28 @@ import java.util.Stack;
 
 public class BinaryTree {
 
+
+
+    /**
+     * 144. 二叉树的前序遍历
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        ArrayList<Integer> result = new ArrayList<>();
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curr = root;
+        while (curr != null || !stack.isEmpty()) {
+            if (curr != null) {
+                stack.push(curr);
+                result.add(curr.val);
+                curr = curr.left;
+            } else {
+                TreeNode pop = stack.pop();
+                curr = pop.right;
+            }
+        }
+        return result;
+    }
+
     /**
      * 94. 二叉树的中序遍历
      * 好题
@@ -33,55 +55,35 @@ public class BinaryTree {
     }
 
     /**
-     * 144. 二叉树的前序遍历
-     */
-    public List<Integer> preorderTraversal(TreeNode root) {
-        ArrayList<Integer> result = new ArrayList<>();
-        Stack<TreeNode> stack = new Stack<>();
-        TreeNode curr = root;
-        while (curr != null || !stack.isEmpty()) {
-            if (curr != null) {
-                stack.push(curr);
-                result.add(curr.val);
-                curr = curr.left;
-            } else {
-                TreeNode pop = stack.pop();
-                curr = pop.right;
-            }
-        }
-        return result;
-    }
-
-    /**
      * 145. 二叉树的后序遍历
      */
     public List<Integer> postorderTraversal(TreeNode root) {
         ArrayList<Integer> result = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
-        Stack<TreeNode> oldFStack = new Stack<>();
-        TreeNode f = root;
-        while (f != null || !stack.isEmpty()) {
-            if (f != null) {
-                stack.push(f);
-                f = f.left;
+        Stack<TreeNode> oldStack = new Stack<>();
+        TreeNode curr = root;
+        while (curr != null || !stack.isEmpty()) {
+            if (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
             } else {
                 TreeNode pop = stack.pop();
-                oldFStack.push(pop);
-                f = pop.right;
+                oldStack.push(pop);
+                curr = pop.right;
 
-                if (f == null && !oldFStack.isEmpty()) {
+                if (curr == null && !oldStack.isEmpty()) {
                     if (!stack.isEmpty()) {
                         TreeNode peek = stack.peek();
-                        while (!oldFStack.isEmpty()) {
-                            TreeNode oldf = oldFStack.pop();
+                        while (!oldStack.isEmpty()) {
+                            TreeNode oldf = oldStack.pop();
                             result.add(oldf.val);
                             if (peek.left == oldf || peek.right == oldf) {
                                 break;
                             }
                         }
                     } else {
-                        while (!oldFStack.isEmpty()) {
-                            TreeNode oldf = oldFStack.pop();
+                        while (!oldStack.isEmpty()) {
+                            TreeNode oldf = oldStack.pop();
                             result.add(oldf.val);
                         }
                     }
@@ -90,6 +92,15 @@ public class BinaryTree {
         }
         return result;
     }
+
+
+
+
+
+
+
+
+
 
     private void inOrder(TreeNode root, List<Integer> list) {
         if (root == null) return;
