@@ -1,8 +1,6 @@
 package lanchong.iloveu.algorithm;
 
 
-
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -20,7 +18,7 @@ import java.util.PriorityQueue;
  * 二分查找及变种
  * sqrt 二分法 倍增法   很多解不了的数学题都可以使用这种方式
  * 之前计算mid使用 (r+l)>>1 。实际上会出现超出int范围的问题
- *
+ * <p>
  * 考虑1 Sort 2 Duplicate 3 Negative
  */
 public class BinarySearch {
@@ -47,6 +45,114 @@ public class BinarySearch {
         if (nums[r] == target) return r;
         return -1;
     }
+
+
+    /**
+     * 变种1
+     * 找frist,那就一定在l-mid之间
+     */
+    public int findFrist(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return -1;
+        int l = 0;
+        int r = nums.length - 1;
+        int mid ;
+        while (l + 1 < r) {
+            mid = l + ((r - l) >> 1);
+            if (nums[mid] >= target) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        if (nums[l]==target){
+            return l;
+        }
+        if (nums[r]==target){
+            return r;
+        }
+        return -1;
+    }
+
+
+    /**
+     * 变种2
+     * 找last,那就一定在mid-r之间
+     */
+    public int findLast(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return -1;
+        int l = 0;
+        int r = nums.length - 1;
+        int mid ;
+        while (l+1<r){
+            mid = l+((r-l)>>1);
+            if (nums[mid]<=target){
+                l = mid;
+            }else {
+                r = mid;
+            }
+        }
+        if (nums[r]==target){
+            return r;
+        }
+        if (nums[l]==target){
+            return l;
+        }
+        return -1;
+    }
+
+    /**
+     * 变种3
+     * 查找第一个大于等于给定值的元素
+     */
+    public int findFristOrLarger(int[] nums, int target) {
+        if (nums==null||nums.length==0)return -1;
+        int l = 0;
+        int r = nums.length-1;
+        int mid;
+        while (l+1<r){
+            mid = l+((r-l)>>1);
+            if (nums[mid]>=target){
+                r = mid;
+            }else{
+                l = mid;
+            }
+        }
+        if (nums[l]>=target){
+            return l;
+        }
+        if (nums[r]>=target){
+            return r;
+        }
+        return -1;
+    }
+
+    /**
+     * 变种4
+     * 查找最后一个小于等于给定值的元素
+     */
+    public int findLastOrSmall(int[] nums, int target) {
+        if (nums==null||nums.length==0)return -1;
+        int l = 0;
+        int r = nums.length-1;
+        int mid;
+        while (l+1<r){
+            mid = l+((r-l)>>1);
+            if (nums[mid]<=target){
+                l = mid;
+            }else {
+                r = mid;
+            }
+        }
+        if (nums[r]<=target){
+            return r;
+        }
+        if (nums[l]<=target){
+            return l;
+        }
+        return -1;
+    }
+
+
 
     /**
      * 范围搜索
@@ -414,7 +520,7 @@ public class BinarySearch {
         Arrays.sort(intervals, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
-                return o1[0]-o2[0];
+                return o1[0] - o2[0];
             }
         });
         ArrayList<int[]> list = new ArrayList<>();
@@ -434,13 +540,62 @@ public class BinarySearch {
                 }
             }
         }
-        if (dest!=null){
+        if (dest != null) {
             list.add(dest);
         }
 
         int[][] integers = list.toArray(new int[list.size()][]);
         return integers;
     }
+
+    private int find(int[] nums, int target) {
+        if (nums == null || nums.length == 0) return -1;
+        int l = 0;
+        int r = nums.length - 1;
+        int mid ;
+        while (l + 1 < r) {
+            mid = l + ((r - l) >> 1);
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                r = mid;
+            } else {
+                l = mid;
+            }
+        }
+        if (nums[l] == target) {
+            return l;
+        }
+        if (nums[r] == target) {
+            return r;
+        }
+        return -1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

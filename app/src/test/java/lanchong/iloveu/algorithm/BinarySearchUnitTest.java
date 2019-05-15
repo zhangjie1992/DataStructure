@@ -6,6 +6,51 @@ import org.junit.Test;
 public class BinarySearchUnitTest {
 
     @Test
+    public void findFrist() {
+        BinarySearch s = new BinarySearch();
+//        int[] nums = {0,0,0, 1,1, 2,2,2,2,3,3,4,4,5,5,5,5,5,5,5,5};
+        int[] nums = {0};
+        System.out.println("result:" + s.findFrist(nums, 0));
+    }
+
+
+    @Test
+    public void findLast() {
+        BinarySearch s = new BinarySearch();
+        int[] nums = {0,0,0,1,1,
+                2,2,2,2,3,
+                3,4,4,5,5,
+                5,5,5,5,5,
+                5};
+//        int[] nums = {5};
+        System.out.println("result:" + s.findLast(nums, 5));
+    }
+
+    @Test
+    public void findFristOrLarger() {
+        BinarySearch s = new BinarySearch();
+        int[] nums = {0,0,0,1,1,
+                2,2,2,2,3,
+                3,4,4,5,5,
+                5,5,5,5,5,
+                5,10};
+//        int[] nums = {5};
+        System.out.println("result:" + s.findFristOrLarger(nums, 9));
+    }
+
+    @Test
+    public void findLastOrSmall() {
+        BinarySearch s = new BinarySearch();
+        int[] nums = {0,0,0,1,1,
+                2,2,2,2,3,
+                3,3,3,5,5,
+                5,5,5,5,5,
+                5,10};
+//        int[] nums = {5};
+        System.out.println("result:" + s.findLastOrSmall(nums, 4));
+    }
+
+    @Test
     public void binarySearchTemp() {
         BinarySearch s = new BinarySearch();
         int[] nums = {4, 5, 6, 7, 0, 1, 2};
@@ -189,5 +234,11 @@ public class BinarySearchUnitTest {
         }
 
     }
+
+
+
+
+
+
 
 }
