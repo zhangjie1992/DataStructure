@@ -33,6 +33,23 @@ public class BinaryTreeUnitTest {
         System.out.println("result:"+binaryTree.postorderTraversal(root));
     }
 
+    @Test
+    public void longestUnivaluePath() {
+        BinaryTree.TreeNode root = new BinaryTree.TreeNode(1);
+        root.left =  new BinaryTree.TreeNode(4);
+        root.left.left =  new BinaryTree.TreeNode(4);
+        root.left.right =  new BinaryTree.TreeNode(4);
+
+        root.right =  new BinaryTree.TreeNode(5);
+        root.right.right =  new BinaryTree.TreeNode(5);
+
+        System.out.println("result:"+binaryTree.longestUnivaluePath(root));
+    }
+
+
+
+
+
 
     @Before
     public void init(){
@@ -49,6 +66,9 @@ public class BinaryTreeUnitTest {
         root.right.right = new BinaryTree.TreeNode(-1);
         root.right.right.right = new BinaryTree.TreeNode(8);
     }
+
+
+
 
 
 

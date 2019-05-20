@@ -285,4 +285,51 @@ public class BinaryTree {
     }
 
 
+    /**
+     * 687. 最长同值路径
+     */
+    public int longestUnivaluePath(TreeNode root) {
+        preOrder(root);
+        return max;
+    }
+    int max = 0;
+
+    private void preOrder(TreeNode root){
+        if (root==null){
+            return;
+        }
+        //当前节点
+        int currPath = univalue(root.left,root.val, 0) + univalue(root.right,root.val, 0);
+        max = Math.max(currPath,max);
+
+        preOrder(root.left);
+        preOrder(root.right);
+    }
+
+    private int univalue(TreeNode node,int val,int size){
+        if (node==null){
+            return size;
+        }
+        if (node.val==val){
+            size++;
+            return Math.max(univalue(node.left,val,size),univalue(node.right,val,size));
+        }
+        return size;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

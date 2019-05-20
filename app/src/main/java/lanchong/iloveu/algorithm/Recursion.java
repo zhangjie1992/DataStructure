@@ -1,6 +1,7 @@
 package lanchong.iloveu.algorithm;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -162,6 +163,46 @@ public class Recursion {
 
 
 
+    }
+
+
+
+    /**
+     * 784. 字母大小写全排列
+     */
+    public List<String> letterCasePermutation(String S) {
+        ArrayList<Integer> idxs = new ArrayList<>();
+        char[] chars = S.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char aChar = chars[i];
+            if (aChar>=65){
+                idxs.add(i);
+                if (aChar<=90){
+                    chars[i] = (char) (aChar+32);
+                }
+            }
+        }
+        result.add(new String(chars));
+        letterCase(chars,idxs,0);
+        return result;
+    }
+    ArrayList<String> result = new ArrayList<>();
+
+    private void letterCase(char[] chars,ArrayList<Integer> idxs,int pre){
+        if (pre>=idxs.size()){
+            return;
+        }
+        for (int i = pre; i < idxs.size(); i++) {
+            char[] charsCopy = Arrays.copyOf(chars,chars.length);
+            int idx = idxs.get(i);
+            char aChar = charsCopy[idx];
+
+            charsCopy[idx] = (char) (aChar-32);
+
+            result.add(new String(charsCopy));
+
+            letterCase(charsCopy,idxs,i+1);
+        }
     }
 
 
