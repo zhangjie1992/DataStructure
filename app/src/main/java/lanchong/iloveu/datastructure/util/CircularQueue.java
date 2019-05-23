@@ -5,6 +5,10 @@ import java.util.Iterator;
 
 /**
  * 顺序队列，不可扩容
+ *
+ * 列表满：(TAIL + 1) % mCapicity == HEAD
+ * 列表空：HEAD == TAIL
+ *
  */
 public class CircularQueue<E> implements Queue2<E>, Iterable {
 
