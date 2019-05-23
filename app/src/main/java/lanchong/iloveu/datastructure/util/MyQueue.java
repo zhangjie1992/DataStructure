@@ -3,9 +3,9 @@ package lanchong.iloveu.datastructure.util;
 import java.util.Iterator;
 
 /**
- * 队列
+ * 链式队列
  */
-public class MyQueue<E> implements Queue<E>, Iterable {
+public class MyQueue<E> implements Queue2<E>, Iterable {
 
     private Node mTheHead;
     private int mTheSize;
@@ -31,16 +31,6 @@ public class MyQueue<E> implements Queue<E>, Iterable {
     }
 
     @Override
-    public void add(E e, int idx) {
-
-    }
-
-    @Override
-    public E set(E e, int idx) {
-        return null;
-    }
-
-    @Override
     public E poll() {
         if (isEmpty()) {
             return null;
@@ -52,25 +42,19 @@ public class MyQueue<E> implements Queue<E>, Iterable {
         return pollNode.data;
     }
 
-    @Override
-    public boolean contains(E e) {
-        return false;
-    }
+
 
     @Override
-    public int indexOf(E e) {
-        return 0;
-    }
-
-
     public boolean isEmpty() {
         return size() == 0;
     }
 
+    @Override
     public int size() {
         return mTheSize;
     }
 
+    @Override
     public void clear() {
         mTheHead = null;
         mTheSize = 0;

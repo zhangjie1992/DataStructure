@@ -30,6 +30,9 @@ public class BinaryTreeUnitTest {
     }
     @Test
     public void postorderTraversal() {
+        BinaryTree.TreeNode root = new BinaryTree.TreeNode(1);
+        root.right =  new BinaryTree.TreeNode(2);
+        root.right.left =  new BinaryTree.TreeNode(3);
         System.out.println("result:"+binaryTree.postorderTraversal(root));
     }
 

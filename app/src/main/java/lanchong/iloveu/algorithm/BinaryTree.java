@@ -59,33 +59,24 @@ public class BinaryTree {
      */
     public List<Integer> postorderTraversal(TreeNode root) {
         ArrayList<Integer> result = new ArrayList<>();
-        Stack<TreeNode> stack = new Stack<>();
-        Stack<TreeNode> oldStack = new Stack<>();
+        if (root==null) return result;
+        Stack<TreeNode> roots = new Stack<>();
+        Stack<TreeNode> pops = new Stack<>();
         TreeNode curr = root;
-        while (curr != null || !stack.isEmpty()) {
-            if (curr != null) {
-                stack.push(curr);
+        while (curr!=null||!roots.isEmpty()){
+            if (curr!=null){
+                roots.push(curr);
                 curr = curr.left;
-            } else {
-                TreeNode pop = stack.pop();
-                oldStack.push(pop);
+            }else {
+                TreeNode pop = roots.pop();
                 curr = pop.right;
-
-                if (curr == null && !oldStack.isEmpty()) {
-                    if (!stack.isEmpty()) {
-                        TreeNode peek = stack.peek();
-                        while (!oldStack.isEmpty()) {
-                            TreeNode oldf = oldStack.pop();
-                            result.add(oldf.val);
-                            if (peek.left == oldf || peek.right == oldf) {
-                                break;
-                            }
-                        }
-                    } else {
-                        while (!oldStack.isEmpty()) {
-                            TreeNode oldf = oldStack.pop();
-                            result.add(oldf.val);
-                        }
+                if (curr!=null){
+                    pops.push(pop);
+                }else {
+                    result.add(pop.val);
+                    while (!pops.isEmpty()&&notRootsChild(pop,roots)){
+                        pop = pops.pop();
+                        result.add(pop.val);
                     }
                 }
             }
@@ -93,13 +84,10 @@ public class BinaryTree {
         return result;
     }
 
-
-
-
-
-
-
-
+    private boolean notRootsChild(TreeNode pop,Stack<TreeNode> roots){
+        if (roots.isEmpty())return true;
+        return roots.peek().left != pop && roots.peek().right != pop;
+    }
 
 
     private void inOrder(TreeNode root, List<Integer> list) {
@@ -316,13 +304,6 @@ public class BinaryTree {
         }
         return size;
     }
-
-
-
-
-
-
-
 
 
 
