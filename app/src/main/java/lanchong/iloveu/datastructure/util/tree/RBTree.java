@@ -28,38 +28,6 @@ public class RBTree implements BinaryTree<Integer> {
 
     /**
      * TODO 添加操作未完成
-     * <strong>CASE 1：如果关注节点是 a，它的叔叔节点 v 是红色</strong>，我们就依次执行下面的操作：</p><ul>
-     * <li>
-     * <p>将关注节点 a 的父节点 b、叔叔节点 v 的颜色都设置成黑色；</p>
-     * </li>
-     * <li>
-     * <p>将关注节点 a 的祖父节点 c 的颜色设置成红色；</p>
-     * </li>
-     * <li>
-     * <p>关注节点变成 a 的祖父节点 c；</p>
-     * </li>
-     * <li>
-     * <p>跳到 CASE  2 或者 CASE  3。</p>
-     * </li>
-     * </ul><p><img src="https://static001.geekbang.org/resource/image/60/40/603cf91f54b5db21bd02c6c5678ecf40.jpg" alt=""></p><p><strong>CASE 2：如果关注节点是 a，它的叔叔节点 v 是黑色，关注节点 a 是其父节点 b 的右子节点</strong>，我们就依次执行下面的操作：</p><ul>
-     * <li>
-     * <p>关注节点变成节点 a 的父节点 b；</p>
-     * </li>
-     * <li>
-     * <p>围绕新的关注节点b 左旋；</p>
-     * </li>
-     * <li>
-     * <p>跳到 CASE  3。</p>
-     * </li>
-     * </ul><p><img src="https://static001.geekbang.org/resource/image/44/ad/4480a314f9d83c343b8adbb28b6782ad.jpg" alt=""></p><p><strong>CASE 3：如果关注节点是 a，它的叔叔节点 v 是黑色，关注节点 a 是其父节点 b 的左子节点</strong>，我们就依次执行下面的操作：</p><ul>
-     * <li>
-     * <p>围绕关注节点 a 的祖父节点 c 右旋；</p>
-     * </li>
-     * <li>
-     * <p>将关注节点 a 的父节点 b、兄弟节点 c 的颜色互换。</p>
-     * </li>
-     * <li>
-     * <p>调整结束。</p>
      */
     @Override
     public void add(Integer element) {
