@@ -7,6 +7,9 @@ import java.util.NoSuchElementException;
  * 双向链表+HashMap实现的高效LRUCache
  *
  * 注意这里的添加和移除都要考虑同时操作 链表+HashMap
+ *
+ * Java LinkedHashMap
+ * Note that insertion order is not affected if a key is <i>re-inserted</i> into the map
  */
 public class LRUCache<K, V> {
 
