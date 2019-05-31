@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class DivideAndConquerUnitTest {
 
@@ -65,6 +66,9 @@ public class DivideAndConquerUnitTest {
         System.out.println("result:" + s.findK(nums, 5));
     }
 
+    /**
+     * 计算逆序对
+     */
     @Test
     public void test6() {
         DivideAndConquer s = new DivideAndConquer();

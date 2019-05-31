@@ -298,6 +298,23 @@ public class Other {
 
 
 
+    /**
+     * 从n层楼扔鸡蛋
+     * 使用数学归纳法
+     *
+     * (n+1)*n/2 = 100;
+     *
+     * 200 = n2 + n
+     *
+     * 答案=14
+     *
+     */
+    public int eggDropping(int n){
+        return 14;
+    }
+
+
+
 
 
 
