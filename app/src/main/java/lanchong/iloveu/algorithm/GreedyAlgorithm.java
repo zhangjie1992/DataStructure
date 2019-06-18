@@ -147,9 +147,9 @@ public class GreedyAlgorithm {
 
         while (true) {
             char aChar = chars[idx];
-            if (aChar!=0){
+            if (aChar != 0) {
                 char target = aChar == r ? d : r;
-                if (!find(chars, target, idx)) return aChar==r?"Radiant":"Dire";
+                if (!find(chars, target, idx)) return aChar == r ? "Radiant" : "Dire";
             }
 
             idx++;
@@ -160,10 +160,10 @@ public class GreedyAlgorithm {
     }
 
     private boolean find(char[] chars, char target, int idx) {
-        for (int i,j = idx + 1 ; j < chars.length + idx + 1; j++) {
+        for (int i, j = idx + 1; j < chars.length + idx + 1; j++) {
             if (j >= chars.length) {
                 i = j - chars.length;
-            }else {
+            } else {
                 i = j;
             }
             if (chars[i] == target) {
@@ -180,35 +180,64 @@ public class GreedyAlgorithm {
      */
     public String removeKdigits(String num, int k) {
         if (num.isEmpty()) return "0";
-        if (k<=0) return num;
-        if (num.length()<=k) return "0";
+        if (k <= 0) return num;
+        if (num.length() <= k) return "0";
 
         //0前面数的个数
         int indexOf = num.indexOf("0");
-        if (indexOf!=-1&&k>=indexOf){
+        if (indexOf != -1 && k >= indexOf) {
             k -= indexOf;
-            num = num.substring(indexOf+1);
-            while (num.startsWith("0")){
+            num = num.substring(indexOf + 1);
+            while (num.startsWith("0")) {
                 num = num.substring(1);
             }
-            return removeKdigits(num,k);
-        }else {
-            while (k>0){
+            return removeKdigits(num, k);
+        } else {
+            while (k > 0) {
                 char[] chars = num.toCharArray();
                 int top = getTop(chars);
-                num=num.substring(0, top)+num.substring(top+1);
+                num = num.substring(0, top) + num.substring(top + 1);
                 k--;
             }
             return num;
         }
     }
-    private int getTop(char[] chars){
-        for (int i = 0; i < chars.length-1; i++) {
-            if (chars[i]>chars[i+1]){
+
+    private int getTop(char[] chars) {
+        for (int i = 0; i < chars.length - 1; i++) {
+            if (chars[i] > chars[i + 1]) {
                 return i;
             }
         }
-        return chars.length-1;
+        return chars.length - 1;
+    }
+
+
+    /**
+     * 55. 跳跃游戏
+     */
+    public boolean canJump(int[] nums) {
+        if (nums == null || nums.length == 0) return true;
+        return canJump(nums, 0);
+    }
+
+    private boolean canJump(int[] nums, int start) {
+        int length = nums[start];
+        if (length == 0) return false;
+
+        int max = 0;
+        int nextStart = 0;
+        for (int i = 1; i <= length; i++) {
+            int next = start + i;
+            if (next >= nums.length - 1) return true;
+
+            int nextFar = nums[next] + next;
+            if (nextFar>max) {
+                max = nextFar;
+                nextStart = next;
+            }
+        }
+        return canJump(nums, nextStart);
     }
 
 

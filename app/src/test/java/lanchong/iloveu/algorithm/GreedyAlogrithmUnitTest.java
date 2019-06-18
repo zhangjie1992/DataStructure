@@ -29,6 +29,15 @@ public class GreedyAlogrithmUnitTest {
     }
 
 
+    @Test
+    public void canJump() {
+        GreedyAlgorithm s = new GreedyAlgorithm();
+//        int[] nums = {3,2,1,0,4};
+//        int[] nums = {2,3,1,1,4};
+        int[] nums = {5,9,3,2,1,0,2,3,3,1,0,0};
+        System.out.println("result:" + s.canJump(nums));
+    }
+
 
 
 

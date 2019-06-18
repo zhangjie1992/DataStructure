@@ -23,10 +23,13 @@ public class Allocator2 {
      * @param to
      */
     public synchronized void apply(User from,User to) throws InterruptedException {
+        //#####范例:while(条件不满足) { wait(); }
         while (list.contains(from)||list.contains(to)){
             //释放锁Allocator2.this ,允许其他线程抢占该锁
             wait();
         }
+        //#####
+
         list.add(from);
         list.add(to);
     }
