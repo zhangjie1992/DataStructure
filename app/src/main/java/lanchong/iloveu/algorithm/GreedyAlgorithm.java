@@ -232,7 +232,7 @@ public class GreedyAlgorithm {
             if (next >= nums.length - 1) return true;
 
             int nextFar = nums[next] + next;
-            if (nextFar>max) {
+            if (nextFar > max) {
                 max = nextFar;
                 nextStart = next;
             }
@@ -240,5 +240,64 @@ public class GreedyAlgorithm {
         return canJump(nums, nextStart);
     }
 
+    /**
+     * 135. 分发糖果
+     * <p>
+     * 第一步给第一个人发一颗糖
+     * <p>
+     * 当下一个等于当前时：
+     * 当前是1，下一个是1
+     * 当前>1,下一个-1
+     * 当下一个小于当前时：
+     * 当前是1，下一个是1，前面的全部+1
+     * 当前>1,下一个-1
+     * 当下一个大于当前时：
+     * 下一个+1
+     * <p>
+     * 1,2,2
+     */
+    public int candy(int[] ratings) {
+        return candy(ratings, 1, 0, 1);
+    }
+
+    private int candy(int[] ratings, int currCandy, int currIndex, int totalCandy) {
+        if (currIndex == ratings.length - 1) {
+            return totalCandy;
+        }
+        int rating = ratings[currIndex];
+        int nextRating = ratings[currIndex + 1];
+        int nextCandy;
+        if (nextRating == rating) {
+            if (currCandy == 1) {
+                nextCandy = 1;
+            } else {
+                nextCandy = currCandy - 1;
+            }
+        } else if (nextRating < rating) {
+            if (currCandy == 1) {
+                nextCandy = 1;
+                totalCandy += currIndex + 1;
+            } else {
+                nextCandy = currCandy - 1;
+            }
+        } else {
+            nextCandy = currCandy + 1;
+        }
+        return candy(ratings, nextCandy, currIndex + 1, totalCandy + nextCandy);
+    }
+
+
+    private int findMin(int[] ratings) {
+        int min = 0;
+        int minIndex = 0;
+        for (int i = 0; i < ratings.length; i++) {
+            int rating = ratings[i];
+            if (rating < min) {
+                min = rating;
+                minIndex = i;
+            }
+        }
+        return minIndex;
+    }
 
 }
