@@ -4,6 +4,14 @@ package lanchong.iloveu.datastructure.util;
  * 二叉堆
  * 小顶堆
  * TODO 改成可以插入任意元素 模仿priorityQueue
+ *
+ * build 	创建一个空堆 	O ( n )
+ * insert 	向堆中插入一个新元素 	O ( log ⁡ n )
+ * update 	将新元素提升使其匹配堆的性质
+ * get 	    获取当前堆顶元素的值 	O ( 1 )
+ * delete 	删除堆顶元素 	O ( log ⁡ n )
+ * heapify 	使删除堆顶元素的堆再次成为堆
+ *
  */
 public class Heap {
 
@@ -16,11 +24,14 @@ public class Heap {
      * @param capicity
      */
     public Heap(int capicity) {
+        build(capicity);
+    }
+    private void build(int capicity){
         mCapicity = capicity;
         this.mDatas = new Integer[mCapicity];
     }
 
-    public java.lang.Integer peek() {
+    public Integer peek() {
         return mDatas[0];
     }
 
@@ -96,10 +107,10 @@ public class Heap {
                 mDatas[idx] = min;
                 if (mDatas[lChild] == min){
                     mDatas[lChild] = tmp;
-                    shiftUp(lChild);
+                    shiftDown(lChild);
                 }else {
                     mDatas[rChild] = tmp;
-                    shiftUp(lChild);
+                    shiftDown(rChild);
                 }
             }
         }else {

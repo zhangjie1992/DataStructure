@@ -1,5 +1,12 @@
 package lanchong.iloveu.algorithm;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
 public class Array {
 
     /**
@@ -125,6 +132,93 @@ public class Array {
         }
         return true;
     }
+
+    /**
+     * 1. 两数之和
+     */
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int key = target - nums[i];
+            if (map.containsKey(key)) {
+                int[] ret = new int[2];
+                ret[0] = i;
+                ret[1] = map.get(key);
+                return ret;
+            }
+            map.put(nums[i], i);
+        }
+        return null;
+    }
+
+
+    /**
+     * 15. 三数之和
+     * 是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？
+     * 注意：答案中不可以包含重复的三元组。
+     * [-2,0,0,2,2]
+     * 0 1 2 3 4
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        ArrayList<List<Integer>> result = new ArrayList<>();
+        if (nums.length < 3) {
+            return result;
+        }
+        Arrays.sort(nums);
+        HashSet<Integer> lSet = new HashSet<>();
+        HashSet<Integer> rUsed = new HashSet<>();
+        for (int i = 1; i < nums.length-1; i++) {
+            int l = nums[i - 1];
+            lSet.add(l);
+            int curr = nums[i];
+
+            if (i > 1 && curr == nums[i - 2]) {
+                continue;
+            }
+            if (curr != l) {
+                rUsed.clear();
+            }
+            for (int j = i+1; j < nums.length; j++) {
+                int r = nums[j];
+                if (rUsed.contains(r)){
+                    continue;
+                }
+                int key = -(curr+r);
+                if (lSet.contains(key)){
+                    rUsed.add(r);
+
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.add(key);
+                    list.add(curr);
+                    list.add(r);
+                    result.add(list);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 169. 求众数
+     */
+    public int majorityElement(int[] nums) {
+        int curr = nums[0];
+        int count = 0;
+        for (int i : nums) {
+            if (curr==i){
+                count++;
+            }else {
+                if (count==0){
+                    curr = i;
+                    count++;
+                }else {
+                    count--;
+                }
+            }
+        }
+        return curr;
+    }
+
 
 
 }

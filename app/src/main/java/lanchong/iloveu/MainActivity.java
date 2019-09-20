@@ -1,7 +1,10 @@
-package lanchong.iloveu.datastructure;
+package lanchong.iloveu;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
+import lanchong.iloveu.datastructure.R;
 
 
 //小米面试题
@@ -32,11 +35,24 @@ import android.os.Bundle;
 //A onInterceptTouchEvent ACTION_UP
 //B dispatchTouchEvent ACTION_UP
 //B onInterceptTouchEvent ACTION_UP
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.btn).setOnClickListener(this);
+
     }
+
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn) {
+        }
+    }
+
+
 }

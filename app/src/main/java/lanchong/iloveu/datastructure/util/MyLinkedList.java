@@ -1,87 +1,123 @@
 package lanchong.iloveu.datastructure.util;
 
-import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * 双端队列实现
- * TODO 未完全实现
  */
-public class MyLinkedList<E> implements List<E>, Deque<E>, Iterable {
+public class MyLinkedList<E> implements Deque<E>, Iterable {
 
-    private Node<E> mFrist;
-    private Node<E> mLast;
+    /**
+     * sentinel node
+     * 保证操作的一致性
+     */
+    private Node<E> beginMarker;
+    /**
+     * sentinel node
+     */
+    private Node<E> endMarker;
     private int mTheSize;
+    private int modCount;
 
     public MyLinkedList() {
+        init();
+    }
+
+    private void init() {
+        beginMarker = new Node<>(null, null, null);
+        endMarker = new Node<>(beginMarker, null, null);
+        beginMarker.next = endMarker;
+        modCount++;
+        mTheSize = 0;
     }
 
     @Override
     public E peekFrist() {
-        return mFrist == null ? null : mFrist.data;
+        return beginMarker.next.data;
     }
 
     @Override
     public E peekLast() {
-        return mLast == null ? null : mLast.data;
+        return endMarker.prev.data;
     }
 
     @Override
     public void addFrist(E e) {
-        mFrist = new Node<>(null, e, mFrist);
-        if (mLast==null){
-            mLast = mFrist;
-            mFrist.next = mLast;
-            mLast.prev = mFrist;
-        }
+        addBefore(e, 0);
         mTheSize++;
+        modCount++;
     }
 
     @Override
     public void addLast(E e) {
-        mLast = new Node<>(mLast, e, null);
-        if (mFrist==null){
-            mFrist = mLast;
-            mLast.prev = mFrist;
-            mFrist.next = mLast;
-        }
+        addBefore(e, size());
         mTheSize++;
+        modCount++;
+    }
+
+    private void addBefore(E e, int idx) {
+        Node<E> r = getNode(idx);
+        r.prev.next = r.prev = new Node<>(r.prev, e, r);
+    }
+
+    private Node<E> getNode(int idx) {
+        if (idx < -1 || idx > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        int curr;
+        Node<E> node;
+        if (idx >= size() >> 1) {
+            curr = size();
+            node = endMarker;
+            while (curr != idx) {
+                node = node.prev;
+                curr--;
+            }
+        } else {
+            curr = -1;
+            node = beginMarker;
+            while (curr == idx) {
+                node = node.next;
+                curr++;
+            }
+        }
+        return node;
     }
 
     @Override
     public E pollFrist() {
-        if (mFrist == null) {
-            return null;
+        if (beginMarker.next == endMarker) {
+            throw new NoSuchElementException();
         }
-        E temp = mFrist.data;
-        mFrist.data = null;
-        mFrist.prev = null;
-        //双端列表不太对
-        mFrist = mFrist.next;
-        mFrist.prev = null;
+
+        Node<E> temp = beginMarker.next;
+        temp.next.prev = beginMarker;
+        beginMarker.next = temp.next;
         mTheSize--;
-        return temp;
+        modCount--;
+        return temp.data;
     }
 
     @Override
     public E pollLast() {
-        if (mLast == null) {
-            return null;
+        if (endMarker.prev == beginMarker) {
+            throw new NoSuchElementException();
         }
-        E temp = mFrist.data;
-        mFrist.data = null;
-        mFrist.prev = null;
-        //双端列表不太对
-        mFrist = mFrist.next;
-        mFrist.prev = null;
+
+        Node<E> temp = endMarker.prev;
+        temp.prev.next = endMarker;
+        endMarker.prev = temp.prev;
         mTheSize--;
-        return temp;
+        modCount--;
+        return temp.data;
     }
 
 
     @Override
     public Iterator iterator() {
-        return null;
+        return new Itr();
     }
 
     @Override
@@ -101,14 +137,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E>, Iterable {
 
     @Override
     public void clear() {
-        mFrist = new Node<>(mFrist, null, mLast);
-        mLast = mFrist;
-        mTheSize = 0;
-    }
-
-    @Override
-    public E get(int idx) {
-        return null;
+        init();
     }
 
     @Override
@@ -117,53 +146,57 @@ public class MyLinkedList<E> implements List<E>, Deque<E>, Iterable {
     }
 
     @Override
-    public void add(int idx, E e) {
-
+    public void add(E e, int idx) {
+        if (idx < 0 || idx >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        addBefore(e, idx);
+        mTheSize++;
+        modCount++;
     }
 
-    @Override
-    public void addAll(E[] e) {
-
-    }
 
     @Override
-    public void addAll(int idx, Collection<? extends E> c) {
-
-    }
-
-    @Override
-    public E set(int idx, E e) {
+    public E set(E e, int idx) {
+        if (idx < 0 || idx >= size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node<E> node = getNode(idx);
+        node.prev.next = node.next.prev = new Node<>(node.prev, e, node.next);
+        modCount++;
         return null;
-    }
-
-    @Override
-    public E remove(int idx) {
-        return null;
-    }
-
-    @Override
-    public boolean removeAll(Collection<?> c) {
-        return false;
     }
 
     @Override
     public boolean contains(E e) {
-        return false;
-    }
-
-    @Override
-    public boolean containsAll(Collection<?> c) {
+        if (e == null) {
+            return false;
+        }
+        Node<E> curr = beginMarker.next;
+        while (curr != endMarker) {
+            if (curr.data == e) {
+                return true;
+            }
+            curr = curr.next;
+        }
         return false;
     }
 
     @Override
     public int indexOf(E e) {
-        return 0;
-    }
-
-    @Override
-    public E[] toArray() {
-        return null;
+        if (e == null) {
+            return -1;
+        }
+        Node<E> curr = beginMarker.next;
+        int index = 0;
+        while (curr != endMarker) {
+            if (curr.data == e) {
+                return index;
+            }
+            curr = curr.next;
+            index++;
+        }
+        return -1;
     }
 
     @Override
@@ -171,7 +204,7 @@ public class MyLinkedList<E> implements List<E>, Deque<E>, Iterable {
         return pollFrist();
     }
 
-    private class Node<E> {
+    private static class Node<E> {
         public Node<E> prev;
         public E data;
         public Node<E> next;
@@ -182,4 +215,33 @@ public class MyLinkedList<E> implements List<E>, Deque<E>, Iterable {
             this.next = next;
         }
     }
+
+    private class Itr implements Iterator<E> {
+        private Node<E> curr = beginMarker.next;
+        private int expectedModCount = modCount;
+
+        @Override
+        public boolean hasNext() {
+            return curr != endMarker;
+        }
+
+        @Override
+        public E next() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
+            E tmp = curr.data;
+            curr = curr.next;
+            return tmp;
+        }
+
+//        @Override
+//        public void remove() {
+//            if (expectedModCount != modCount) {
+//                throw new ConcurrentModificationException();
+//            }
+//            MyLinkedList.this.remove(curr.prev);
+//        }
+    }
+
 }

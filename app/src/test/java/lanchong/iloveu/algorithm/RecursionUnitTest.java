@@ -37,7 +37,10 @@ public class RecursionUnitTest {
 
 
 
-
+    @Test
+    public void letterCasePermutation(){
+        System.out.println("result:" + new Recursion().letterCasePermutation("ABCDE2"));
+    }
 
 
 

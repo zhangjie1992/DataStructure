@@ -1,11 +1,12 @@
 package lanchong.iloveu.algorithm;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * 排序算法
- *
+ * <p>
  * 二叉搜索树排序
  * 堆排序
  * 煎饼排序 非常非常的有意思 1979盖茨也参与 2009冯昆吾的老师改进
@@ -14,82 +15,82 @@ public class Sort {
 
     /**
      * 快速排序 分治法
-     * 稳定性：
-     * 适应性：
-     * 时间复杂度: O(n*logn)
-     * 空间复杂度 O(1)
-     * 使用范围: 使用最多比归并排序用的多
      */
     public void quickSort(List<Integer> list) {
         quickSortRecursion(list, 0, list.size());
     }
 
-    public void quickSortRecursion(List<Integer> list, int pivotIndex, int length) {
+    private void quickSortRecursion(List<Integer> list, int i, int size) {
+        if (size <= 1) {
+            return;
+        }
+        int r = partition(list, i, size);
+        int lLength = r - i;
+        quickSortRecursion(list, i, lLength);
+        quickSortRecursion(list, r, size - lLength - 1);
+    }
+
+    private int partition(List<Integer> list, int i, int size) {
+        getPivot(list, i, size - 1);
+        int pivotValue = list.get(i);
+        int l = i + 1,r = i + size - 1;
+        while (true) {
+            while (r > i && list.get(r) > pivotValue) {
+                r--;
+            }
+            while (r > l && list.get(l) < pivotValue) {
+                l++;
+            }
+            if (r <= l) {
+                break;
+            }
+            Integer tmp = list.get(r);
+            list.set(r, list.get(l));
+            list.set(l, tmp);
+        }
+        if (r != i) {
+            list.set(i, list.get(r));
+            list.set(r, pivotValue);
+        }
+        return r;
+    }
+
+    private void getPivot(List<Integer> list, int lIdx, int rIdx) {
+        int length = rIdx - lIdx;
         if (length <= 1) {
             return;
         }
-        Integer pivot = list.get(pivotIndex);
-        int maxIdx = pivotIndex + length - 1;
-        int i = pivotIndex, j = maxIdx;
-        int jValue;
-        for (; i <= maxIdx && j >= pivotIndex; ) {
-            jValue = list.get(j);
-            while (jValue >= pivot && j - 1 >= pivotIndex) {
-                j--;
-                jValue = list.get(j);
-            }
+        int mIdx = lIdx + (length >> 1);
+        int l = list.get(lIdx),r = list.get(rIdx),m = list.get(mIdx);
 
-            int iValue = list.get(i);
-            while (iValue <= pivot && i + 1 < maxIdx && i + 1 < j) {
-                i++;
-                iValue = list.get(i);
-            }
-            if (i < j) {
-                list.set(i, jValue);
-                list.set(j, iValue);
-
-                i++;
-                j--;
-            } else {
-                break;
-            }
+        int max = Math.max(l, Math.max(r, m));
+        int min = Math.min(l, Math.min(r, m));
+        if (r <= max && r >= min) {
+            list.set(lIdx, r);
+            list.set(rIdx, l);
+        } else if (m <= max && m >= min) {
+            list.set(lIdx, m);
+            list.set(mIdx, l);
         }
-        jValue = list.get(j);
-        while (jValue >= pivot && j - 1 >= pivotIndex) {
-            j--;
-            jValue = list.get(j);
-        }
-        list.set(j, pivot);
-        list.set(pivotIndex, jValue);
-
-        int leftLength = j - pivotIndex;
-        int rightLength = length - (leftLength) - 1;
-        int rightPivotIndex = j + 1;
-        quickSortRecursion(list, pivotIndex, leftLength);
-        quickSortRecursion(list, rightPivotIndex, rightLength);
     }
 
 
     /**
      * 归并排序,并归排序(分治法) 使用递归
-     * 稳定性：
-     * 适应性：
-     * 时间复杂度:O(n*logn)
-     * 空间复杂度:O(n)
-     * 使用范围: 使用较多
      */
     public List<Integer> mergeSort(List<Integer> list) {
         if (list.size() <= 1) {
             return list;
         }
-        int mid = list.size() / 2;
+        int mid = list.size() >> 1;
         List<Integer> left = list.subList(0, mid);
         List<Integer> right = list.subList(mid, list.size());
         return merge(mergeSort(left), mergeSort(right));
     }
 
-    public List<Integer> merge(List<Integer> left, List<Integer> right) {
-        ArrayList<Integer> list = new ArrayList<>();
+    private List<Integer> merge(List<Integer> left, List<Integer> right) {
+        int newSize = left.size() + right.size();
+        ArrayList<Integer> list = new ArrayList<>(newSize);
         int i = 0, j = 0;
         for (; i < left.size() && j < right.size(); ) {
             int iValue = left.get(i);
@@ -120,13 +121,8 @@ public class Sort {
 
     /**
      * 计数排序
-     * 稳定性：
-     * 适应性：
-     * 时间复杂度:O(n)
-     * 空间复杂度:复杂
-     * 使用范围:
      */
-    public List<Integer> countingSort(List<Integer> list) {
+    public Integer[] countingSort(List<Integer> list) {
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int i = 0; i < list.size(); i++) {
@@ -135,35 +131,51 @@ public class Sort {
             max = Math.max(max, value);
         }
         int length = max - min + 1;
+        //存放计数的个数
         int[] intArr = new int[length];
-
+        //将个数存放进去
         for (int i = 0; i < list.size(); i++) {
-            int value = list.get(i);
+            int data = list.get(i);
 
-            int index = value - min;
-            int intArrValue = intArr[index];
-            intArr[index] = ++intArrValue;
+            int idx = data - min;
+            int intArrValue = intArr[idx];
+            intArr[idx] = ++intArrValue;
         }
 
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            int count = intArr[i];
-            int value = i + min;
-            for (int j = 0; j < count; j++) {
-                result.add(value);
-            }
+        //将个数转化成排序后的下标
+        for (int i = 1; i < intArr.length; i++) {
+            intArr[i] = intArr[i-1]+intArr[i];
         }
 
+        //结果集
+        Integer[] result = new Integer[list.size()];
+        //获得结果
+        for (int i = list.size()-1; i >=0; i--) {
+            Integer data = list.get(i);
+            int idx = intArr[data-min] -1;
+            result[idx] = data;
+
+            intArr[data-min] = idx;
+        }
         return result;
     }
 
+//    /**
+//     * 基数排序
+//     */
+//    public int[] RadixSort(int[] nums) {
+//
+//        for (int i = 0; i < nums.length; i++) {
+//
+//        }
+//
+//
+//    }
+
+
+
     /**
      * 插入排序
-     * 稳定性：√
-     * 适应性：
-     * 时间复杂度:O(n²)
-     * 空间复杂度:O(1)
-     * 使用范围:
      * 缺点：每次只能移动一位数据
      */
     public void insertionSort(ArrayList<Integer> list) {
@@ -182,10 +194,24 @@ public class Sort {
         }
     }
 
+    //插入排序
+    public void insertionSort(int[] nums) {
+        for (int i = 1; i < nums.length; i++) {
+            int value = nums[i];
+            int j = i - 1;
+            for (; j >= 0; j--) {
+                if (nums[j] > value) {
+                    nums[j + 1] = nums[j];
+                } else {
+                    break;
+                }
+            }
+            nums[j + 1] = value;
+        }
+    }
+
     /**
      * 选择排序
-     * 稳定性：×
-     * 适应性：×
      */
     public void selectSort(ArrayList<Integer> list) {
         int size = 0;
@@ -212,23 +238,117 @@ public class Sort {
 
 
     /**
-     * 冒泡排序（可优化）
-     * 稳定性：√
-     * 适应性：√
+     * 冒泡排序
      */
-    public void popSort(ArrayList<Integer> list) {
-        int size = 0;
-        while (size < list.size() - 1) {
-            for (int i = 0; i < list.size() - size - 1; i++) {
-                int iInt = list.get(i);
-                int jInt = list.get(i + 1);
-                if (iInt > jInt) {
-                    list.set(i + 1, iInt);
-                    list.set(i, jInt);
+    public void bobbleSort(int[] nums) {
+        boolean flag = false;
+        int orderlyCount = 0;
+
+        while (orderlyCount < nums.length - 1) {
+            int i = 0;
+            int length = nums.length - 1 - orderlyCount;
+            for (; i < length; i++) {
+                if (nums[i] > nums[i + 1]) {
+                    swap(i, i + 1, nums);
+                    flag = true;
                 }
             }
-            size++;
+            orderlyCount++;
+            if (!flag) {
+                break;
+            }
         }
     }
+
+
+    /**
+     * 堆排序
+     * 1.堆化
+     * 2.排序
+     * 原地排序 in-places
+     */
+    public void heapSort(int[] ints) {
+        if (ints == null || ints.length == 0) return;
+        //堆化
+        heapify(ints);
+
+        //排序
+        int max = ints.length - 1;
+        while (max > 0) {
+            swap(0, max, ints);
+            max--;
+
+            shiftDown(0, ints, max + 1);
+        }
+    }
+
+    /**
+     * 堆化
+     * 选取最优的堆化方式，从最后一个非叶子结点到0
+     * 最后一个非叶子结点 = 最后一个结点的父节点
+     */
+    private void heapify(int[] ints) {
+        for (int i = getParentNodeIndex(ints.length - 1); i >= 0; i--) {
+            shiftDown(i, ints, ints.length);
+        }
+    }
+
+    private void shiftDown(int idx, int[] datas, int size) {
+        int lChild = getlChildNodeIndex(idx);
+        int rChild = getrChildNodeIndex(idx);
+        if (lChild >= size && rChild >= size) {
+            return;
+        }
+        int tmp = datas[idx];
+        if (rChild < size) {
+            //两个都有
+            int max = Math.max(datas[lChild], datas[rChild]);
+            if (tmp < max) {
+                datas[idx] = max;
+                if (datas[lChild] == max) {
+                    datas[lChild] = tmp;
+                    shiftDown(lChild, datas, size);
+                } else {
+                    datas[rChild] = tmp;
+                    shiftDown(rChild, datas, size);
+                }
+            }
+        } else {
+            if (tmp < datas[lChild]) {
+                datas[idx] = datas[lChild];
+                datas[lChild] = tmp;
+            }
+        }
+    }
+
+    /**
+     * 父节点下标
+     *
+     * @return -1表示不存在父节点
+     */
+    private int getParentNodeIndex(int i) {
+        return (i - 1) >> 1;
+    }
+
+    /**
+     * 左孩子节点下标
+     */
+    private int getlChildNodeIndex(int i) {
+        return (i << 1) + 1;
+    }
+
+    /**
+     * 右孩子节点下标
+     */
+    private int getrChildNodeIndex(int i) {
+        return (i << 1) + 2;
+    }
+
+    private void swap(int i, int j, int[] ints) {
+        int tmp = ints[i];
+        ints[i] = ints[j];
+        ints[j] = tmp;
+    }
+
 
 }
