@@ -573,6 +573,71 @@ public class BinarySearch {
     }
 
 
+    /**
+     * @param nums [1,2,3,4,5,6]
+     * @param target 0
+     * @return
+     */
+    public int binarySearchTemp2(int[] nums, int target) {
+        if (nums==null||nums.length==0)return -1;
+        int l = 0 ;
+        int r = nums.length-1;
+        int mid;
+        while (l+1<r){
+            mid = l+((r-l)>>1);
+            if (nums[mid]==target){
+                return mid;
+            }else if (nums[mid]>target){
+                r = mid;
+            }else {
+                l = mid;
+            }
+        }
+        if (nums[l]==target)return l;
+        if (nums[r]==target)return r;
+        return -1;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

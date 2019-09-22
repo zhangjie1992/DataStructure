@@ -12,9 +12,7 @@ public class BinaryTree {
 
 
 
-    /**
-     * 144. 二叉树的前序遍历
-     */
+    //144. 二叉树的前序遍历
     public List<Integer> preorderTraversal(TreeNode root) {
         ArrayList<Integer> result = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
@@ -32,11 +30,7 @@ public class BinaryTree {
         return result;
     }
 
-    /**
-     * 94. 二叉树的中序遍历
-     * 好题
-     * 使用迭代来中序遍历二叉树
-     */
+    //94. 二叉树的中序遍历
     public List<Integer> inorderTraversal(TreeNode root) {
         ArrayList<Integer> result = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
@@ -54,9 +48,7 @@ public class BinaryTree {
         return result;
     }
 
-    /**
-     * 145. 二叉树的后序遍历
-     */
+    //145. 二叉树的后序遍历
     public List<Integer> postorderTraversal(TreeNode root) {
         ArrayList<Integer> result = new ArrayList<>();
         if (root==null) return result;
@@ -310,6 +302,52 @@ public class BinaryTree {
 
 
 
+
+    public void preorderTraversal1(TreeNode root) {
+        preOrder2(root);
+    }
+
+    private void preOrder2(TreeNode root){
+        if (root==null){
+            return;
+        }
+        System.out.println("root:"+root.val);
+        preOrder2(root.left);
+        preOrder2(root.right);
+    }
+
+
+    public void inorderTraversal1(TreeNode root) {
+        inOrder2(root);
+    }
+
+
+    private void inOrder2(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        inOrder2(root.left);
+        System.out.println("root:" + root.val);
+        inOrder2(root.right);
+    }
+
+
+
+    public void postorderTraversal1(TreeNode root) {
+        postOrder2(root);
+    }
+
+
+    private void postOrder2(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        postOrder2(root.left);
+        postOrder2(root.right);
+        System.out.println("root:" + root.val);
+    }
 
 
 

@@ -1,7 +1,6 @@
 package lanchong.iloveu.algorithm;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -241,13 +240,11 @@ public class Sort {
      * 冒泡排序
      */
     public void bobbleSort(int[] nums) {
-        boolean flag = false;
         int orderlyCount = 0;
 
         while (orderlyCount < nums.length - 1) {
-            int i = 0;
-            int length = nums.length - 1 - orderlyCount;
-            for (; i < length; i++) {
+            boolean flag = false;
+            for (int i = 0; i < (nums.length - 1 - orderlyCount); i++) {
                 if (nums[i] > nums[i + 1]) {
                     swap(i, i + 1, nums);
                     flag = true;

@@ -50,6 +50,21 @@ public class BinaryTreeUnitTest {
     }
 
 
+    @Test
+    public void preorderTraversal1() {
+        binaryTree.preorderTraversal1(root);
+    }
+
+    @Test
+    public void inorderTraversal1() {
+        binaryTree.inorderTraversal1(root);
+    }
+
+
+    @Test
+    public void postorderTraversal1() {
+        binaryTree.postorderTraversal1(root);
+    }
 
 
 
