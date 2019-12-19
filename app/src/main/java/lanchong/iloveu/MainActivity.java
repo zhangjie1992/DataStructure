@@ -1,10 +1,13 @@
 package lanchong.iloveu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import lanchong.iloveu.datastructure.R;
+import lanchong.iloveu.diy.DiyActivity;
 
 
 //小米面试题
@@ -44,15 +47,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.btn).setOnClickListener(this);
+        findViewById(R.id.btn2).setOnClickListener(this);
+
+//只要不点击就不会anr
+//        try {
+//            Thread.sleep(10000000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
 
     @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btn) {
+    public void onClick(View v) {6
+        switch (v.getId()) {
+            case R.id.btn2:
+                Intent intent = new Intent(MainActivity.this, DiyActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        Log.e("zjzjzj", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("zjzjzj", "onStop");
+
+    }
 }
